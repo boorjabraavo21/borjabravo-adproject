@@ -1,0 +1,18 @@
+ion-card {
+    width: 200px;
+    height: auto;
+    padding: 10px;
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+}
+
+ion-avatar {
+    width: 100px;
+    height: auto;
+}

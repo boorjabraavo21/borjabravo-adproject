@@ -1,0 +1,21 @@
+<ion-card>
+  <ion-card-subtitle>{{player?.rating}}</ion-card-subtitle>
+  <ion-card-subtitle>{{player?.position}}</ion-card-subtitle>
+  <ion-card-header>
+    <div class="card-header">
+      <ion-avatar>
+        <img alt="Silhouette of mountains" src={{player?.picture}} />
+      </ion-avatar>
+      <div>
+        <ion-card-title>{{player?.name}}</ion-card-title>
+      </div>
+    </div>
+    
+  </ion-card-header>
+
+  <ion-card-content>
+    <p>{{player?.age}} years</p>
+    <p>{{player?.nation}}</p>
+    <p>{{player?.team}}</p>
+  </ion-card-content>
+</ion-card>
