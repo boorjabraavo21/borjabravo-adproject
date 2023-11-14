@@ -1,38 +1,14 @@
-<div id="popover-button">
-  <ion-item [button]="!disabled" [detail]="!disabled">
-    <ion-text slot="start" position="fixed">Usuario:</ion-text>
-    <ion-text *ngIf="!playerSelected && !disabled">Seleccione un usuario</ion-text>
-    <ion-text *ngIf="!playerSelected && disabled">Ninguno</ion-text>
-    <ion-avatar slot="start" *ngIf="playerSelected" >
-      <ion-img *ngIf="playerSelected.picture" [src]="playerSelected.picture"></ion-img>
-      <img *ngIf="!playerSelected?.picture" alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar> 
-    <ion-text *ngIf="playerSelected">{{playerSelected.name}}</ion-text>
-</ion-item>
-
-</div>
-
-<ion-popover *ngIf="!disabled" trigger="popover-button" #popover (willPresent)="onLoadPlayers()">
+<ion-searchbar id="popover-button" animated="true" placeholder="Buscar jugador" (ionInput)="onFilter($event)"></ion-searchbar>
+<!-- <ion-button id="popover-button" color="dark" fill="clear"> <ion-icon id="lupa" name="search-outline"></ion-icon>Buscar jugador</ion-button> -->
+<ion-popover trigger="popover-button" alignment="center" #popover (willPresent)="onLoadPlayers()">
   <ng-template>
     <ion-content >
-      
+      <!-- <ion-searchbar id="popover-button" animated="true" placeholder="Buscar jugador" (ionInput)="onFilter($event)"></ion-searchbar> -->
       <ion-list>
-        
-        <ion-item>
-          <ion-input #search placeholder="Buscar" type="text" (ionInput)="onFilter($event)" debounce="200"></ion-input>
-          <ion-button color="medium" slot="end" fill="clear" (click)="clearSearch(search)"><ion-icon slot="icon-only" name="close-outline"></ion-icon></ion-button>
-        </ion-item>
-        <ion-item button (click)="deselect(popover)">
-          <ion-avatar slot="start">
-            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-          </ion-avatar> 
-          <ion-text >Ninguno</ion-text>
-        </ion-item>
-        <!--<app-player-item
-          (clicked)="onplayerClicked(popover,$event)"
+        <app-player-item
+          (clicked)="onPlayerClicked(popover,$event)"
           *ngFor="let player of players"
-          [player]="player"
-        ></app-player-item>-->
+          [player]="player"></app-player-item>
       </ion-list>
     </ion-content>
   </ng-template>

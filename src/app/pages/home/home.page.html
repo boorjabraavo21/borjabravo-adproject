@@ -12,7 +12,13 @@
       <ion-title size="large">Blank</ion-title>
     </ion-toolbar>
   </ion-header>
-  <app-player-searcher></app-player-searcher>
+  <ion-buttons>
+    <ion-button (click)="toMyTeams()">Mis plantillas</ion-button>
+    <ion-button>Mis jugadores</ion-button>
+  </ion-buttons>
+  <div id="buscador">
+    <app-player-searcher></app-player-searcher>
+  </div>
   <div id="container">
     
     <div class="players">

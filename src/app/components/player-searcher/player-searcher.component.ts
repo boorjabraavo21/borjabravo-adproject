@@ -1,5 +1,6 @@
 import { Component, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IonInput, IonPopover } from '@ionic/angular';
 import { lastValueFrom } from 'rxjs';
 import { Player } from 'src/app/interfaces/player';
@@ -25,7 +26,8 @@ export class PlayerSearcherComponent  implements OnInit, ControlValueAccessor {
   propagateChange = (obj:any) => {}
 
   constructor(
-    public plySvc:PlayerService
+    public plySvc:PlayerService,
+    private router:Router
   ) { }
 
   async onLoadPlayers() {
@@ -47,11 +49,11 @@ export class PlayerSearcherComponent  implements OnInit, ControlValueAccessor {
     this.propagateChange = fn
   }
   registerOnTouched(fn: any): void {
-    throw new Error('Method not implemented.');
+
   }
   setDisabledState?(isDisabled: boolean): void {
     this.disabled = isDisabled
-  }
+  } 
 
   ngOnInit() {}
 
@@ -67,17 +69,8 @@ export class PlayerSearcherComponent  implements OnInit, ControlValueAccessor {
 
   onPlayerClicked(popover:IonPopover, player:Player){
     this.selectPlayer(player.id, true);
+    this.router.navigate(['/player-info',player.id])
+
     popover.dismiss();
-  }
-
-  clearSearch(input:IonInput){
-    input.value = "";
-    this.filter("");
-  }
-
-  deselect(popover:IonPopover|null=null){
-    this.selectPlayer(undefined, true);
-    if(popover)
-      popover.dismiss();
   }
 }

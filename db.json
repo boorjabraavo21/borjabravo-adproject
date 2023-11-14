@@ -8,7 +8,7 @@
             "position":"LW", 
             "nation":"Brasil", 
             "team":"Real Madrid", 
-            "picture":""
+            "picture":"./src/assets/vinicius.png"
         },
         {
             "id":2, 
@@ -18,7 +18,7 @@
             "position":"CM", 
             "nation":"Spain", 
             "team":"Barcelona", 
-            "picture":""
+            "picture":"./src/assets/pedri.png"
         },
         {
             "id":3, 
@@ -28,7 +28,7 @@
             "position":"ST", 
             "nation":"France", 
             "team":"Atlético de Madrid", 
-            "picture":""
+            "picture":"./src/assets/griezmann.png"
         },
         {
             "id":4, 
@@ -38,7 +38,7 @@
             "position":"RW", 
             "nation":"Japan", 
             "team":"Real Sociedad", 
-            "picture":""
+            "picture":"./src/assets/kubo.png"
         }
     ]
 }
