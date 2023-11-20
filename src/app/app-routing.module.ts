@@ -16,8 +16,12 @@ const routes: Routes = [
     loadChildren: () => import('./pages/player-info/player-info.module').then( m => m.PlayerInfoPageModule)
   },
   {
-    path: 'myteams',
-    loadChildren: () => import('./pages/myteams/myteams.module').then( m => m.MyteamsPageModule)
+    path: 'mysquads',
+    loadChildren: () => import('./pages/mysquads/mysquads.module').then( m => m.MySquadsPageModule)
+  },
+  {
+    path: 'myplayers',
+    loadChildren: () => import('./pages/myplayers/myplayers.module').then( m => m.MyplayersPageModule)
   },
 ];
 

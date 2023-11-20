@@ -1,7 +1,7 @@
 export interface Player {
     id:number,
     name:string,
-    position:string,
+    position:'Forward' | 'Midfielder' | 'Defense' | 'GoalKeeper',
     nation:string,
     age:number,
     rating:number,

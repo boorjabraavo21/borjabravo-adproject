@@ -1,15 +1,6 @@
-<ion-searchbar id="popover-button" animated="true" placeholder="Buscar jugador" (ionInput)="onFilter($event)"></ion-searchbar>
-<!-- <ion-button id="popover-button" color="dark" fill="clear"> <ion-icon id="lupa" name="search-outline"></ion-icon>Buscar jugador</ion-button> -->
-<ion-popover trigger="popover-button" alignment="center" #popover (willPresent)="onLoadPlayers()">
-  <ng-template>
-    <ion-content >
-      <!-- <ion-searchbar id="popover-button" animated="true" placeholder="Buscar jugador" (ionInput)="onFilter($event)"></ion-searchbar> -->
-      <ion-list>
-        <app-player-item
-          (clicked)="onPlayerClicked(popover,$event)"
-          *ngFor="let player of players"
-          [player]="player"></app-player-item>
-      </ion-list>
-    </ion-content>
-  </ng-template>
-</ion-popover>
+<ion-toolbar>
+  <ion-searchbar show-cancel-button="focus" placeholder="Buscar jugador" (ionFocus)="onLoadPlayers()" (ionInput)="onFilter($event)" (ionCancel)="onCancel()" [debounce]="200"></ion-searchbar>
+  <ion-list *ngIf="!hideList">
+    <app-player-item (clicked)="onPlayerClicked($event)" *ngFor="let player of players" [player]="player"></app-player-item>
+  </ion-list>
+</ion-toolbar>

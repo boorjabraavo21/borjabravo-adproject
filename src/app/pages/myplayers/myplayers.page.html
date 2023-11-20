@@ -1,0 +1,18 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>myplayers</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">myplayers</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-button fill="clear" (click)="onNewPlayer()">Crear jugador <ion-icon id="añadir" name="add-outline"></ion-icon></ion-button>
+  <app-player *ngFor="let player of players" [player]="player"
+              (onDeleteClicked)="onDeletePlayer(player)"
+              (onEditClicked)="onEditPlayer(player)"
+              (onCardClicked)="toPlayerPage(player.id)"></app-player>
+</ion-content>

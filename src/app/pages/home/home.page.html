@@ -13,16 +13,13 @@
     </ion-toolbar>
   </ion-header>
   <ion-buttons>
-    <ion-button (click)="toMyTeams()">Mis plantillas</ion-button>
-    <ion-button>Mis jugadores</ion-button>
+    <ion-button (click)="toMySquads()">Mis plantillas</ion-button>
+    <ion-button (click)="toMyPlayers()">Mis jugadores</ion-button>
   </ion-buttons>
   <div id="buscador">
     <app-player-searcher></app-player-searcher>
   </div>
   <div id="container">
-    
-    <div class="players">
-      <app-player *ngFor="let player of players.players$ | async" [player]="player" (click)="toPlayerPage(player.id)"></app-player>
-    </div>
+
   </div>
 </ion-content>

@@ -1,10 +1,14 @@
-<ion-card>
+<ion-card (click)="onCardClick()">
   <ion-card-subtitle>{{player?.rating}}</ion-card-subtitle>
   <ion-card-subtitle>{{player?.position}}</ion-card-subtitle>
+  <ion-buttons>
+    <ion-button (click)="onDeleteClick($event)"><ion-icon name="trash-outline"></ion-icon></ion-button>
+    <ion-button (click)="onEditClick($event)"><ion-icon name="pencil-outline"></ion-icon></ion-button>
+  </ion-buttons>
   <ion-card-header>
     <div class="card-header">
       <ion-avatar>
-        <img alt="Silhouette of mountains" src={{player?.picture}} />
+        <img alt="Silhouette of mountains" *ngIf="player" src={{player.picture}} />
       </ion-avatar>
       <div>
         <ion-card-title>{{player?.name}}</ion-card-title>
@@ -14,8 +18,11 @@
   </ion-card-header>
 
   <ion-card-content>
-    <p>{{player?.age}} years</p>
-    <p>{{player?.nation}}</p>
-    <p>{{player?.team}}</p>
+    <ion-item>
+      <ion-text *ngIf="player">{{player.age}} years</ion-text>
+    </ion-item>
+    <ion-item><ion-text>{{player?.nation}}</ion-text></ion-item>
+    <ion-item  *ngIf="player?.team != 'Created'"><ion-text>{{player?.team}}</ion-text></ion-item>
+    
   </ion-card-content>
 </ion-card>

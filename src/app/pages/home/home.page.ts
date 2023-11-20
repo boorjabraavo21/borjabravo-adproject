@@ -22,7 +22,11 @@ export class HomePage implements OnInit {
     this.router.navigate(['/player-info', id])
   }
 
-  toMyTeams() {
-    this.router.navigate(['/myteams'])
+  toMySquads() {
+    this.router.navigate(['/mysquads'])
+  }
+
+  toMyPlayers() {
+    this.router.navigate(['/myplayers'])
   }
 }

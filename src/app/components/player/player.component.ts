@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component,  EventEmitter,  Input,  OnInit, Output } from '@angular/core';
 import { Player } from 'src/app/interfaces/player';
+
+
 
 @Component({
   selector: 'app-player',
@@ -8,9 +10,28 @@ import { Player } from 'src/app/interfaces/player';
 })
 export class PlayerComponent  implements OnInit {
 
-  constructor() { }
+  @Input() player: Player | null = null
+  @Output() onCardClicked:EventEmitter<void> = new EventEmitter<void>()
+  @Output() onDeleteClicked:EventEmitter<void> = new EventEmitter<void>()
+  @Output() onEditClicked:EventEmitter<void> = new EventEmitter<void>()
+  constructor(
 
-  @Input() player:Player | null = null
+  ) { }
 
   ngOnInit() {}
+
+  onCardClick() {
+    this.onCardClicked.emit()
+  }
+
+  onDeleteClick(ev:Event) {
+    ev.stopPropagation()
+    this.onDeleteClicked.emit()
+  }
+
+  onEditClick(ev:Event) {
+    ev.stopPropagation()
+    this.onEditClicked.emit()
+  }
+
 }

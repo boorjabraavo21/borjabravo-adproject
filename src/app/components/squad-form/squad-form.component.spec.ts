@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { TeamFormComponent } from './team-form.component';
+import { SquadFormComponent } from './squad-form.component';
 
-describe('TeamFormComponent', () => {
-  let component: TeamFormComponent;
-  let fixture: ComponentFixture<TeamFormComponent>;
+describe('SquadFormComponent', () => {
+  let component: SquadFormComponent;
+  let fixture: ComponentFixture<SquadFormComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ TeamFormComponent ],
+      declarations: [ SquadFormComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TeamFormComponent);
+    fixture = TestBed.createComponent(SquadFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

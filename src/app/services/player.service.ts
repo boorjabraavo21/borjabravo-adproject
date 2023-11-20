@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { Player } from '../interfaces/player';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -22,10 +22,10 @@ export class PlayerService {
     }))
     /*return new Observable(obs => {
       var players:Player[] = [
-        {id:1, name:"Vinicius Jr", age:23, rating:89, position:"LW", nation:"Brasil", team:"Real Madrid", picture:"../assets/vinicius.png"},
-        {id:2, name:"Pedri", age:20, rating:86, position:"CM", nation:"Spain", team:"Barcelona", picture:"../assets/pedri.png"},
-        {id:3, name:"Griezmann", age:32, rating:88, position:"ST", nation:"France", team:"Atlético de Madrid", picture:"../assets/griezmann.png"},
-        {id:4, name:"Take Kubo", age:22, rating:80, position:"RW", nation:"Japan", team:"Real Sociedad", picture:"../assets/kubo.png"},
+        {id:1, name:"Vinicius Jr", age:23, rating:89, position:"LW", nation:"Brasil", squad:"Real Madrid", picture:"../assets/vinicius.png"},
+        {id:2, name:"Pedri", age:20, rating:86, position:"CM", nation:"Spain", squad:"Barcelona", picture:"../assets/pedri.png"},
+        {id:3, name:"Griezmann", age:32, rating:88, position:"ST", nation:"France", squad:"Atlético de Madrid", picture:"../assets/griezmann.png"},
+        {id:4, name:"Take Kubo", age:22, rating:80, position:"RW", nation:"Japan", squad:"Real Sociedad", picture:"../assets/kubo.png"},
       ]
       this._players.next(players)
     })*/
@@ -45,5 +45,40 @@ export class PlayerService {
 
   query(q:string):Observable<Player[]> {
     return this.http.get<Player[]>(environment.jsonUrl+"/players?=q"+q)
+  }
+
+  addPlayer(player:Player):Observable<Player> {
+    var _player:any = {
+      name:player.name,
+      position:player.picture,
+      age:player.age,
+      nation:player.nation,
+      rating:player.rating,
+      picture:player.picture,
+      team:"Created"
+    }
+    return this.http.post<Player>(environment.jsonUrl+"/players",_player).pipe(tap(_=>{
+      this.getAll().subscribe()
+    }))
+  }
+
+  updatePlayer(player:Player):Observable<Player> {
+    return new Observable (obs => {
+      this.http.patch<Player>(environment.jsonUrl+`/players/${player.id}`,player).subscribe(_=>{
+        this.getPlayer(player.id).subscribe(_player => {
+          obs.next(_player)
+        })
+      })
+    })
+  }
+
+  deletePlayer(player:Player):Observable<Player> {
+    return new Observable (obs => {
+      this.http.delete<Player>(environment.jsonUrl+`/players/${player.id}`).subscribe(_=>{
+        this.getAll().subscribe(_=> {
+          obs.next(player)
+        })
+      })
+    })
   }
 }

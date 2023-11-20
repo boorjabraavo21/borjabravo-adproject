@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{(mode=='New'?'Crear Jugador':'Editar Jugador')}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()">
+    <ion-item>
+      <ion-input label="Nombre" placeholder="Escribe el nombre" labelPlacement="fixed" type="text" formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item [button]="true" id="nested-trigger">
+      <ion-input #posicion [readonly]="true" label="Posición" labelPlacement="fixed" placeholder="Click para elegir" formControlName="position" type="text"></ion-input>
+    </ion-item>
+    <ion-popover #popover trigger="nested-trigger" side="end">
+      <ng-template>
+        <ion-list>
+          <ion-item (click)="onSelectPosition(popover, posicion, 'Forward')" >Delantero</ion-item>
+          <ion-item (click)="onSelectPosition(popover, posicion, 'Midfielder')" >Centrocampista</ion-item>
+          <ion-item (click)="onSelectPosition(popover, posicion, 'Defense')" >Defensa</ion-item>
+          <ion-item (click)="onSelectPosition(popover, posicion, 'Goalkeeper')" >Portero</ion-item>
+        </ion-list>
+      </ng-template>
+    </ion-popover>
+    <ion-item>
+      <ion-input label="Edad" placeholder="Dime la edad" labelPlacement="fixed" type="number" formControlName="age"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="País" placeholder="Escribe la nacionalidad" labelPlacement="fixed" type="text" formControlName="nation"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input label="Valoración" placeholder="Dime la valoración" labelPlacement="fixed" type="number" formControlName="rating"></ion-input>
+    </ion-item>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-buttons>
+    <ion-button type="submit" [disabled]="!form.valid || !form.dirty" (click)="onSubmit()">{{(mode=='New'?'Crear':'Guardar')}}</ion-button>
+  </ion-buttons>
+</ion-footer>
