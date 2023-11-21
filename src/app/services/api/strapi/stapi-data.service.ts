@@ -18,12 +18,12 @@ export class StapiDataService extends DataService {
     }))
   }
   public override get<T>(resource: string): Observable<T> {
-    return this.api.get(`${resource}`).pipe(map((response:StrapiResponse<T>)=>{
+    return this.api.get(`/${resource}`).pipe(map((response:StrapiResponse<T>)=>{
       return response.data.attributes
     }))
   }
   public override post<T>(resource: string, data: any): Observable<T> {
-    return this.api.post(`${resource}`,data).pipe(map((response:StrapiResponse<T>)=>{
+    return this.api.post(`/${resource}`,data).pipe(map((response:StrapiResponse<T>)=>{
       return {
         id:response.data.id,
         ...response.data.attributes
@@ -31,7 +31,7 @@ export class StapiDataService extends DataService {
     }))
   }
   public override put<T>(resource: string, data: any): Observable<T> {
-    return this.api.put(`${resource}`,data).pipe(map((response:StrapiResponse<T>)=>{
+    return this.api.put(`/${resource}`,data).pipe(map((response:StrapiResponse<T>)=>{
       return {
         id:response.data.id,
         ...response.data.attributes
@@ -39,7 +39,7 @@ export class StapiDataService extends DataService {
     }))
   }
   public override delete<T>(resource: string): Observable<T> {
-    return this.api.delete(`${resource}`).pipe(map((response:StrapiResponse<T>)=>{
+    return this.api.delete(`/${resource}`).pipe(map((response:StrapiResponse<T>)=>{
       return {
         id:response.data.id,
         ...response.data.attributes

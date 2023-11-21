@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalController, ToastController, ToastOptions } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { PlayerFormComponent } from 'src/app/components/player-form/player-form.component';
+import { Pagination } from 'src/app/interfaces/data';
 import { Player } from 'src/app/interfaces/player';
 import { PlayerService } from 'src/app/services/player.service';
 
@@ -13,7 +14,10 @@ import { PlayerService } from 'src/app/services/player.service';
 })
 export class MyplayersPage implements OnInit {
   
-  public players:Player[] = []
+  private _players = new BehaviorSubject<Player[]>([])
+  public players$ = this._players.asObservable()
+  private _pagination = new BehaviorSubject<Pagination>({page:0, pageCount: 0, pageSize:0, total:0})
+  public pagination$ = this._pagination.asObservable()
   constructor(
     public playerSvc:PlayerService,
     private modal:ModalController,
@@ -25,10 +29,14 @@ export class MyplayersPage implements OnInit {
     this.onLoadPlayers()
   }
 
-  onLoadPlayers() {
-    this.playerSvc.getAll().subscribe(_players => {
-      this.players = _players.filter(p => p.team == "Created")
+  onLoadPlayers(page:number = 0, refresh:any = null) {
+    this.playerSvc.query("").subscribe(response => {
+      this._players.next(response.data.filter(p => p.team == "Created"))
+      this._pagination.next(response.pagination)
     })
+
+    if(refresh)
+      refresh.complete()
   }
 
   async presentForm(data:Player | null, onDismiss:(result:any)=>void) {
@@ -67,7 +75,6 @@ export class MyplayersPage implements OnInit {
     var _player = {...player}
     this.playerSvc.deletePlayer(_player).subscribe(obs => {
       this.onLoadPlayers();
-
       const options:ToastOptions = {
       message:`User deleted`, //mensaje del toast
       duration:1000, // 1 segundo
@@ -87,7 +94,6 @@ export class MyplayersPage implements OnInit {
     var onDismiss = (info:any) => {
       this.playerSvc.updatePlayer(info.data).subscribe(obs => {
         this.onLoadPlayers();
-
         const options:ToastOptions = {
         message:`User edited`, //mensaje del toast
         duration:1000, // 1 segundo

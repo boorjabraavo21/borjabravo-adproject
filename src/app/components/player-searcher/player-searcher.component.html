@@ -1,6 +1,6 @@
 <ion-toolbar>
   <ion-searchbar show-cancel-button="focus" placeholder="Buscar jugador" (ionFocus)="onLoadPlayers()" (ionInput)="onFilter($event)" (ionCancel)="onCancel()" [debounce]="200"></ion-searchbar>
   <ion-list *ngIf="!hideList">
-    <app-player-item (clicked)="onPlayerClicked($event)" *ngFor="let player of players" [player]="player"></app-player-item>
+    <app-player-item (clicked)="onPlayerClicked($event)" *ngFor="let player of players$ | async" [player]="player"></app-player-item>
   </ion-list>
 </ion-toolbar>

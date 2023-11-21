@@ -20,6 +20,6 @@
     <app-player-searcher></app-player-searcher>
   </div>
   <div id="container">
-
+    <app-player *ngFor="let player of players$ | async" [player]="player"></app-player>
   </div>
 </ion-content>

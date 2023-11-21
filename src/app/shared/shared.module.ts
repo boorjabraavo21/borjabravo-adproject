@@ -8,6 +8,7 @@ import { PlayerSearcherComponent } from 'src/app/components/player-searcher/play
 import { PlayerItemComponent } from 'src/app/components/player-item/player-item.component';
 import { SquadFormComponent } from 'src/app/components/squad-form/squad-form.component';
 import { PlayerFormComponent } from 'src/app/components/player-form/player-form.component';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -18,7 +19,8 @@ import { PlayerFormComponent } from 'src/app/components/player-form/player-form.
     CommonModule,
     FormsModule,
     IonicModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   exports: [CommonModule,
     FormsModule,
