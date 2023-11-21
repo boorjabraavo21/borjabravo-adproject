@@ -39,26 +39,6 @@
       "nation": "Japan",
       "team": "Real Sociedad",
       "picture": "./src/assets/kubo.png"
-    },
-    {
-      "name": "Borja Bravo",
-      "position": "Midfielder",
-      "age": 18,
-      "nation": "Spain",
-      "rating": 90,
-      "picture": "",
-      "team": "Created",
-      "id": 5
-    },
-    {
-      "name": "Pedro García",
-      "position": "Goalkeeper",
-      "age": 20,
-      "nation": "Brasil",
-      "rating": 88,
-      "picture": "",
-      "team": "Created",
-      "id": 6
     }
   ]
 }
