@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IonInput, IonPopover, ModalController } from '@ionic/angular';
+import { IonInput, IonItem, IonPopover, ModalController } from '@ionic/angular';
 import { Player } from 'src/app/interfaces/player';
 
 @Component({
@@ -28,7 +28,7 @@ export class PlayerFormComponent  implements OnInit {
     private formB:FormBuilder,
     private modal:ModalController
   ) { 
-    this.form = formB.group({
+    this.form = this.formB.group({
       id:[null],
       name:['',[Validators.required]],
       age:[0,[Validators.required]],

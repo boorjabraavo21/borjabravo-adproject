@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+<<<<<<< Updated upstream
 import { Player } from '../interfaces/player';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+=======
+import { PaginatedPlayers, Player } from '../interfaces/player';
+>>>>>>> Stashed changes
 import { DataService } from './api/data.service';
 
 @Injectable({
@@ -14,10 +18,10 @@ export class PlayerService {
   public players$ = this._players.asObservable()
 
   constructor(
-    private http:HttpClient,
     private dataService:DataService
   ) { }
 
+<<<<<<< Updated upstream
   getAll():Observable<Player[]> {
     
     return this.http.get<Player[]>(environment.jsonUrl+"/players").pipe(tap((players:any[])=>{
@@ -32,6 +36,28 @@ export class PlayerService {
       ]
       this._players.next(players)
     })*/ 
+=======
+  getAll():Observable<PaginatedPlayers> {
+    return this.dataService.get<PaginatedPlayers>("players").pipe(map(response => {
+      return {
+        data:response.data.map(player => {
+          return {
+            id:player.id,
+            name:player.name,
+            position:player.position,
+            nation:player.nation,
+            age:player.age,
+            rating:player.rating,
+            team:player.team,
+            picture:player.picture
+          }
+        }),
+        pagination:response.pagination
+      }
+    }), tap(players => {
+      this._players.next(players)
+    }))
+>>>>>>> Stashed changes
   }
 
   getPlayer(id:number):Observable<Player> {
@@ -46,6 +72,7 @@ export class PlayerService {
         team:response.team,
         picture:response.picture
       }
+<<<<<<< Updated upstream
     })) */
 
     return this.http.get<Player>(environment.jsonUrl+"/players/"+id)
@@ -81,6 +108,39 @@ export class PlayerService {
     return this.http.post<Player>(environment.jsonUrl+"/players",_player).pipe(tap(_=>{
       this.getAll().subscribe()
     }))
+=======
+    }))
+  }
+
+  query(q:string):Observable<PaginatedPlayers> {
+    return this.dataService.query<any>("players?sort=id", {}).pipe(map(response => {
+      return {
+        data:response.data.map(player => {
+          return {
+            id:player.id,
+            name:player.name,
+            position:player.position,
+            nation:player.nation,
+            age:player.age,
+            rating:player.rating,
+            team:player.team,
+            picture:player.picture
+          }
+        }),
+        pagination:response.pagination
+      }
+    }))
+  }
+
+  addPlayer(player:Player):Observable<Player> {
+    delete player.id
+    if(player.picture=="")
+      player.picture = null;
+    player.team = "Created"
+    return this.dataService.post<Player>("players", player).pipe(tap(_=>{
+      this.getAll().subscribe()
+    }));
+>>>>>>> Stashed changes
   }
 
   updatePlayer(player:Player):Observable<Player> {
@@ -95,6 +155,7 @@ export class PlayerService {
         team:response.team,
         picture:response.picture
       }
+<<<<<<< Updated upstream
     })) */
    
     return new Observable (obs => {
@@ -126,5 +187,12 @@ export class PlayerService {
         })
       })
     })
+=======
+    }))
+  }
+
+  deletePlayer(player:Player):Observable<Player> {
+    return this.dataService.delete<any>(`players/${player.id}`).pipe(tap())
+>>>>>>> Stashed changes
   }
 }

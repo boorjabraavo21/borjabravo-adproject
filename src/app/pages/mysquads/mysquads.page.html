@@ -1,14 +1,13 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>mysquads</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
+<ion-content class="offset-header" [fullscreen]="false">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">mysquads</ion-title>
     </ion-toolbar>
   </ion-header>
   <ion-button fill="clear" (click)="onNewSquad()">Crear plantilla <ion-icon id="añadir" name="add-outline"></ion-icon></ion-button>
+  <div id="squads">
+    <app-squad *ngFor="let squad of squads$ | async" (onEditClicked)="onEditSquad(squad)" 
+    (onDeleteSquad)="onDeleteSquad(squad)" [squad]="squad" ></app-squad>
+  </div>
+  
 </ion-content>

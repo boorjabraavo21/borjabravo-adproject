@@ -1,0 +1,49 @@
+{
+    "player": {
+        "nameLabel":"Nombre",
+        "positionLabel":"Posición",
+        "ageLabel":"Edad",
+        "nationLabel":"País",
+        "ratingLabel":"Valoración",
+        "yearsLabel":"años"
+    },
+    "main":{
+        "hello":"Hola"
+    },
+    "login":{
+        "user":"Usuario",
+        "pwd":"Contraseña",
+        "noAccount":"¿Necesitas una cuenta?",
+        "submit":"Acceder"
+    },
+    "register":{
+        "email":"Email",
+        "name":"Nombre",
+        "surname":"Apellidos",
+        "nickname":"Apodo",
+        "pwd":"Contraseña",
+        "confirm":"Confirmar contraseña",
+        "login":"Quiero iniciar sesión",
+        "submit":"Registrar"
+    },
+    "user-card":{
+        "name":"Nombre"
+    },
+    "header":{
+        "user":{
+            "profile":"Mi perfil",
+            "signout":"Cerrar sesión"
+        },
+        "languages":{
+            "es":"Español",
+            "en":"Inglés"
+        }
+    },
+    "menu":{
+        "home":"Inicio",
+        "login":"Iniciar sesión",
+        "myplayers":"Mis jugadores",
+        "mysquads":"Mis plantillas",
+        "signout":"Cerrar sesión"
+    }
+}

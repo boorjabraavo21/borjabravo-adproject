@@ -1,0 +1,49 @@
+{
+    "player": {
+        "nameLabel":"Name",
+        "positionLabel":"Position",
+        "ageLabel":"Age",
+        "nationLabel":"Nation",
+        "ratingLabel":"Rating",
+        "yearsLabel":"years"
+    },
+    "main":{
+        "hello":"Hello"
+    },
+    "login":{
+        "user":"User",
+        "pwd":"Password",
+        "noAccount":"Need an account?",
+        "submit":"Access"
+    },
+    "register":{
+        "email":"Email",
+        "name":"Name",
+        "surname":"Surname",
+        "nickname":"Nickname",
+        "pwd":"Password",
+        "confirm":"Confirm password",
+        "login":"I want to signin",
+        "submit":"Register"
+    },
+    "user-card":{
+        "name":"Name"
+    },
+    "header":{
+        "user":{
+            "profile":"My profile",
+            "signout":"Sign out"
+        },
+        "languages":{
+            "es":"Spanish",
+            "en":"English"
+        }
+    },
+    "menu":{
+        "home":"Home",
+        "login":"Login",
+        "myplayers":"My players",
+        "mysquads":"My squads",
+        "signout":"Sign out"
+    }
+}

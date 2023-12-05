@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { Observable, lastValueFrom, map, tap } from 'rxjs';
 import { JwtService } from '../../jwt.service';
 import { ApiService } from '../api.service';
+import { AuthService } from '../auth.service';
 import { UserCredentials } from 'src/app/interfaces/user-credentials';
-import { StrapiExtendedUser, StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse, StrapiUser } from 'src/app/interfaces/strapi';
+import { Observable, lastValueFrom, map } from 'rxjs';
+import { StrapiArrayResponse, StrapiExtendedUser, StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse, StrapiUser } from 'src/app/interfaces/strapi';
 import { UserRegisterInfo } from 'src/app/interfaces/user-register-info';
 import { User } from 'src/app/interfaces/user';
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -18,89 +16,98 @@ export class AuthStrapiService extends AuthService {
   constructor(
     private jwtSvc:JwtService,
     private apiSvc:ApiService
-  ) {
+  ) { 
     super();
-    this.init()
+    this.init();
   }
 
-  private init() {
-    this.jwtSvc.loadToken().subscribe(logged => {
-      this._logged.next(logged!="")
-    })
+  private init(){
+    this.jwtSvc.loadToken().subscribe(token => {
+      if(token) {
+        this.me().subscribe(user => {
+          this._logged.next(true)
+          this._user.next(user)
+        })
+      } else {
+        this._logged.next(false)
+        this._user.next(null)
+      }
+    });
   }
 
-  public override login(credentials: UserCredentials): Observable<any> {
-    return new Observable<void>(obs => {
-      const _credentians:StrapiLoginPayload = {
+  public login(credentials:UserCredentials):Observable<void>{
+    return new Observable<void>(obs=>{
+      const _credentials:StrapiLoginPayload = {
         identifier:credentials.username,
         password:credentials.password
-      }
-      this.apiSvc.post("/auth/local",_credentians).subscribe({
-        next: async (data:StrapiLoginResponse) => {
-          await lastValueFrom(this.jwtSvc.saveToken(data.jwt))
-          let connected = data && data.jwt!=""
-          this._logged.next(connected)
-          obs.next()
-          obs.complete()
+      };
+      this.apiSvc.post("/auth/local", _credentials).subscribe({
+        next:async (data:StrapiLoginResponse)=>{
+          await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
+          this._logged.next(data && data.jwt!='');
+          obs.next();
+          obs.complete();
         },
-        error: err => {
-          obs.error(err)
+        error:err=>{
+          obs.error(err);
         }
-      })
-    })
+      });
+    });
   }
 
-  public override register(info: UserRegisterInfo): Observable<any> {
-    return new Observable<void>(obs => {
+  logout():Observable<void>{
+    return this.jwtSvc.destroyToken().pipe(map(_=>{
+      this._logged.next(false);
+      return;
+    }));
+  }
+
+  register(info:UserRegisterInfo):Observable<void>{
+    return new Observable<void>(obs=>{
       const _info:StrapiRegisterPayload = {
-        username:info.username,
         email:info.email,
+        username:info.username,
         password:info.password
       }
-      this.apiSvc.post("/auth/local/register",info).subscribe({
-        next: async (data:StrapiRegisterResponse) => {
-          await lastValueFrom(this.jwtSvc.saveToken(data.jwt))
-          let connected = data && data.jwt != ""
-          this._logged.next(connected)
-          const _extendedUser:StrapiExtendedUser = {
+      this.apiSvc.post("/auth/local/register", info).subscribe({
+        next:async (data:StrapiRegisterResponse)=>{
+          let connected = data && data.jwt!='';
+          this._logged.next(connected);
+          await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
+          const _extended_user:StrapiExtendedUser= {
             name:info.name,
             surname:info.surname,
             user_id:data.user.id
           }
-          await lastValueFrom(this.apiSvc.post("/extend-user",_extendedUser))
-          obs.next()
-          obs.complete()
+          await lastValueFrom(this.apiSvc.post("/extend_user", _extended_user)).catch;
+          obs.next();
+          obs.complete();
         },
-        error: err => {
-          obs.error(err)
+        error:err=>{
+          obs.error(err);
         }
-      })
-    })
+      });
+    });
   }
-  public override logout(): Observable<void> {
-    return this.jwtSvc.destroyToken().pipe(
-      map(_=>{
-        this._logged.next(false)
-        return}))
-  }
-  public override me(): Observable<any> {
-    return new Observable<User>(obs => {
+
+  public me():Observable<User>{
+    return new Observable<User>(obs=>{
       this.apiSvc.get('/users/me').subscribe({
-        next: async (user:StrapiUser) => {
-          let extended_user = await lastValueFrom(this.apiSvc.get(`/extend-users?filters[user_id]=${user.id}`))
+        next:async (user:StrapiUser)=>{
+          let extended_user:StrapiArrayResponse<StrapiExtendedUser> = await lastValueFrom(this.apiSvc.get(`/extend-users?filters[id]=${user.id}`));
           let ret:User = {
-            id:extended_user.id,
-            name:extended_user.name,
-            surname:extended_user.surname,
-            picture:extended_user.picture,
+            id:user.id,
+            name:extended_user.data[0].attributes.name,
+            surname:extended_user.data[0].attributes.surname,
           }
-          obs.next(ret)
-          obs.complete()
+          obs.next(ret);
+          obs.complete();
         },
-        error: err =>{
-          obs.error(err)
+        error: err=>{
+          obs.error(err);
         }
-      })
-    })
+      });
+    });
+    
   }
 }

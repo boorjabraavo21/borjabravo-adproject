@@ -19,7 +19,7 @@ export class PlayerInfoPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.players.getPlayer(1).subscribe(player => {
+    this.players.getPlayer(this.playerId).subscribe(player => {
       this.player = player
     })
     this.route.paramMap.subscribe(params => {

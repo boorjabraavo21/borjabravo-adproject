@@ -1,10 +1,10 @@
 export interface Player {
-    id:number,
+    id?:number,
     name:string,
-    position:'Forward' | 'Midfielder' | 'Defense' | 'GoalKeeper',
+    position:'FW' | 'MF' | 'DF' | 'GK',
     nation:string,
     age:number,
     rating:number,
-    team:string,
-    picture:string
+    team?:string,
+    picture?:string | null
 }
