@@ -4,4 +4,5 @@
     <img *ngIf="player && player.picture" alt="Silhouette of a person's head" [src]="player.picture" />
   </ion-avatar>
   <ion-label>{{player?.name}}</ion-label>
+  <ion-label *ngIf="player?.team=='Created'">(Created)</ion-label>
 </ion-item>

@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StapiDataService } from './stapi-data.service';
+import { DataStrapiService } from './data-strapi.service';
 
-describe('StapiDataService', () => {
-  let service: StapiDataService;
+describe('DataStrapiService', () => {
+  let service: DataStrapiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(StapiDataService);
+    service = TestBed.inject(DataStrapiService);
   });
 
   it('should be created', () => {

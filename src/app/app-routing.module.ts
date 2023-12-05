@@ -1,5 +1,6 @@
-import { ModuleWithProviders, NgModule, Type } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -17,11 +18,17 @@ const routes: Routes = [
   },
   {
     path: 'mysquads',
-    loadChildren: () => import('./pages/mysquads/mysquads.module').then( m => m.MySquadsPageModule)
+    loadChildren: () => import('./pages/mysquads/mysquads.module').then( m => m.MySquadsPageModule),
+    canActivate:[AuthGuard]
   },
   {
     path: 'myplayers',
-    loadChildren: () => import('./pages/myplayers/myplayers.module').then( m => m.MyplayersPageModule)
+    loadChildren: () => import('./pages/myplayers/myplayers.module').then( m => m.MyplayersPageModule),
+    canActivate:[AuthGuard]
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
 ];
 
@@ -31,6 +38,4 @@ const routes: Routes = [
   ],
   exports: [RouterModule]
 })
-export class AppRoutingModule {
-  static HttpClientModule: any[] | Type<any> | ModuleWithProviders<{}>;
-}
+export class AppRoutingModule {}

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #container {
   text-align: center;
 
@@ -32,7 +33,13 @@
   flex-wrap: wrap;
 }
 
+=======
+>>>>>>> Stashed changes
 #buscador {
   display: flex;
   justify-content: center;
+
+  app-player-searcher {
+    width: 500px;
+  }
 }

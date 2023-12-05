@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-
 import { HttpClientWebProvider } from './http-client-web.provider';
 
-describe('HttpClientWebService', () => {
+
+describe('HttpClientWebProvider', () => {
   let service: HttpClientWebProvider;
 
   beforeEach(() => {

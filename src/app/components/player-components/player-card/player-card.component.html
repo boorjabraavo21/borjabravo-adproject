@@ -1,0 +1,24 @@
+<ion-header (click)="presentSelector()">
+  <ion-card >
+    <ion-card-subtitle>{{player?.rating}}</ion-card-subtitle>
+    <ion-card-subtitle>{{player?.position}}</ion-card-subtitle>
+    <ion-card-header>
+      <div class="card-header">
+        <ion-avatar>
+          <img alt="Silhouette of mountains" *ngIf="player" src={{player.picture}} />
+        </ion-avatar>
+        <div>
+          <ion-card-title>{{player?.name}}</ion-card-title>
+        </div>
+      </div>
+      <div id="añadir">
+        <ion-item *ngIf="!player">
+          <ion-icon  name="add-outline"></ion-icon>
+        </ion-item>
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label *ngIf="player?.team=='Created'">Created</ion-label>
+    </ion-card-content>
+  </ion-card>
+</ion-header>

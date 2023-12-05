@@ -9,47 +9,50 @@ export type JwtToken = string
 })
 export class JwtService {
 
-  token = ""
+  token:string = ""
 
   constructor() { }
 
-  loadToken():Observable<JwtToken> {
-    return new Observable<JwtToken>(obs => {
+  loadToken(): Observable<JwtToken> {
+    return new Observable<JwtToken>(observer => {
       Preferences.get({key:'jwtToken'}).then((ret:any) => {
-        if(ret['value']) {
-          this.token = JSON.parse(ret.value)
-          if(this.token == '' && this.token == null) {
-            obs.error('No token')
-          } else {
-            obs.next(this.token)
-            obs.complete()
-          }
-        } else {
-          obs.error('No token')
+        if (ret['value']) {
+          this.token = JSON.parse(ret.value);
+          if(this.token == '' || this.token == null)
+            observer.next('');
+          else 
+            observer.next(this.token);
+          observer.complete();
         }
-      }).catch((err:any) => obs.error(err))
-    })
+        else {
+          observer.next('');
+          observer.complete();
+        }
+      }).catch((error:any) => observer.next(error));
+    });
   }
 
   getToken(): JwtToken {
-    return this.token
+    return this.token;
   }
 
-  saveToken(token:JwtToken):Observable<JwtToken> {
-    return new Observable<JwtToken>(obs => {
+  saveToken(token: JwtToken):Observable<JwtToken> {
+    return new Observable<JwtToken>(observer => {
       Preferences.set({
         key: 'jwtToken',
         value: JSON.stringify(token)
-      }).then((_: any)=>{
-        this.token = token
-        obs.next(this.token)
-        obs.complete()
-      }).catch((err:any) => obs.error(err))
-    })
+      }).then((_) => {
+        this.token = token;
+        observer.next(this.token);
+        observer.complete();
+      }).catch((error:any) => {
+        observer.error(error);
+      });
+    });
   }
 
-  destroyToken():Observable<JwtToken>{
-    this.token = ""
-    return this.saveToken(this.token)
+  destroyToken(): Observable<JwtToken> {
+    this.token = "";
+    return this.saveToken(this.token);
   }
 }
