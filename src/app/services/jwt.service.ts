@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Preferences } from '@capacitor/preferences';
 import { Observable } from 'rxjs';
+import { Preferences } from '@capacitor/preferences';
 
-export type JwtToken = string
-
-@Injectable({
-  providedIn: 'root'
-})
+export type JwtToken = string;
+@Injectable({providedIn: 'root'})
 export class JwtService {
 
-  token:string = ""
+  token: string = "";
 
-  constructor() { }
+  constructor() {
+  }
 
   loadToken(): Observable<JwtToken> {
     return new Observable<JwtToken>(observer => {

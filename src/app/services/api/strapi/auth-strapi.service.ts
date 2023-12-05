@@ -1,42 +1,37 @@
-import { Injectable } from '@angular/core';
+import { Observable, lastValueFrom, map } from 'rxjs';
+import { UserCredentials } from '../../../interfaces/user-credentials';
+import { UserRegisterInfo } from '../../../interfaces/user-register-info';
 import { JwtService } from '../../jwt.service';
 import { ApiService } from '../api.service';
 import { AuthService } from '../auth.service';
-import { UserCredentials } from 'src/app/interfaces/user-credentials';
-import { Observable, lastValueFrom, map } from 'rxjs';
-import { StrapiArrayResponse, StrapiExtendedUser, StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse, StrapiUser } from 'src/app/interfaces/strapi';
-import { UserRegisterInfo } from 'src/app/interfaces/user-register-info';
-import { User } from 'src/app/interfaces/user';
+import { StrapiArrayResponse, StrapiExtendedUser, StrapiLoginPayload, StrapiLoginResponse, StrapiRegisterPayload, StrapiRegisterResponse, StrapiResponse, StrapiUser } from '../../../interfaces/strapi';
+import { User } from '../../../interfaces/user';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthStrapiService extends AuthService {
+
+export class AuthStrapiService extends AuthService{
 
   constructor(
     private jwtSvc:JwtService,
     private apiSvc:ApiService
+    
   ) { 
     super();
-    this.init();
-  }
-
-  private init(){
-    this.jwtSvc.loadToken().subscribe(token => {
-      if(token) {
-        this.me().subscribe(user => {
-          this._logged.next(true)
-          this._user.next(user)
+    this.jwtSvc.loadToken().subscribe(token=>{
+      if(token){
+        this.me().subscribe(user=>{
+          this._logged.next(true);
+          this._user.next(user);
         })
-      } else {
-        this._logged.next(false)
-        this._user.next(null)
+      }else{
+        this._logged.next(false);
+        this._user.next(null);
       }
     });
   }
 
-  public login(credentials:UserCredentials):Observable<void>{
-    return new Observable<void>(obs=>{
+ 
+  public login(credentials:UserCredentials):Observable<User>{
+    return new Observable<User>(obs=>{
       const _credentials:StrapiLoginPayload = {
         identifier:credentials.username,
         password:credentials.password
@@ -44,9 +39,15 @@ export class AuthStrapiService extends AuthService {
       this.apiSvc.post("/auth/local", _credentials).subscribe({
         next:async (data:StrapiLoginResponse)=>{
           await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
-          this._logged.next(data && data.jwt!='');
-          obs.next();
-          obs.complete();
+          try {
+            const user = await lastValueFrom(this.me());
+            this._user.next(user);
+            this._logged.next(true);
+            obs.next(user);
+            obs.complete();
+          } catch (error) {
+            obs.error(error);
+          }
         },
         error:err=>{
           obs.error(err);
@@ -62,26 +63,33 @@ export class AuthStrapiService extends AuthService {
     }));
   }
 
-  register(info:UserRegisterInfo):Observable<void>{
-    return new Observable<void>(obs=>{
+  register(info:UserRegisterInfo):Observable<User>{
+    return new Observable<User>(obs=>{
       const _info:StrapiRegisterPayload = {
         email:info.email,
         username:info.username,
         password:info.password
       }
-      this.apiSvc.post("/auth/local/register", info).subscribe({
+      this.apiSvc.post("/auth/local/register", _info).subscribe({
         next:async (data:StrapiRegisterResponse)=>{
-          let connected = data && data.jwt!='';
-          this._logged.next(connected);
+          
           await lastValueFrom(this.jwtSvc.saveToken(data.jwt));
           const _extended_user:StrapiExtendedUser= {
             name:info.name,
             surname:info.surname,
             user_id:data.user.id
           }
-          await lastValueFrom(this.apiSvc.post("/extend_user", _extended_user)).catch;
-          obs.next();
-          obs.complete();
+          try {
+            await lastValueFrom(this.apiSvc.post("/extended-users", {data:_extended_user}));
+            const user = await lastValueFrom(this.me());
+            this._user.next(user);
+            this._logged.next(true);
+            obs.next(user);
+            obs.complete();  
+          } catch (error) {
+            obs.error(error);
+          }
+          
         },
         error:err=>{
           obs.error(err);

@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from 'src/app/interfaces/user';
+import { BehaviorSubject, Observable, catchError, map, tap } from 'rxjs';
+import { User } from '../../interfaces/user';
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class AuthService {
 
-  protected _logged = new BehaviorSubject<boolean>(false);
+  protected _logged = new BehaviorSubject<boolean|null>(null);
   public isLogged$ = this._logged.asObservable();
   protected _user = new BehaviorSubject<User|null>(null);
   public user$ = this._user.asObservable();
   
-  public abstract login(credentials:Object):Observable<any>;
+  public abstract login(credentials:Object):Observable<User>;
 
-  public abstract register(info:Object):Observable<any>;
+  public abstract register(info:Object):Observable<User>;
 
   public abstract logout():Observable<void>;
 

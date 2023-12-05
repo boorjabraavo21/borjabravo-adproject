@@ -5,7 +5,7 @@
     </ion-toolbar>
   </ion-header>
   <ion-button fill="clear" (click)="onNewPlayer()">Crear jugador <ion-icon id="añadir" name="add-outline"></ion-icon></ion-button>
-  <app-player *ngFor="let player of players" [player]="player"
+  <app-player *ngFor="let player of players$ | async" [player]="player"
               (onDeleteClicked)="onDeletePlayer(player)"
               (onEditClicked)="onEditPlayer(player)"
               (onCardClicked)="toPlayerPage(player.id)"></app-player>

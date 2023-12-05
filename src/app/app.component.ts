@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './services/api/auth.service';
 import { Router } from '@angular/router';
-import { User } from './interfaces/user';
 import { IonMenu } from '@ionic/angular';
 import { delay, of, tap } from 'rxjs';
 import { CustomTranslateService } from './services/custom-translate.service';

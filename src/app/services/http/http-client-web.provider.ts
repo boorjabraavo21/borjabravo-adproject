@@ -3,9 +3,6 @@ import { HttpClientProvider } from './http-client.provider';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class HttpClientWebProvider extends HttpClientProvider{
 
   constructor(private readonly httpClient:HttpClient) {
