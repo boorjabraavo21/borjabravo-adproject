@@ -1,9 +1,9 @@
-<ion-toolbar>
-  <ion-searchbar show-cancel-button="focus" placeholder="Buscar jugador" (ionFocus)="onLoadPlayers()" (ionInput)="onFilter($event)" (ionCancel)="onCancel()" [debounce]="200"></ion-searchbar>
-  <ion-list *ngIf="!hideList">
-    <ion-item *ngIf="player" [button]="true" (click)="onPlayerDeselect()">
-      <ion-input type="text" [readonly]="true">Quitar jugador</ion-input>
-    </ion-item>
-    <app-player-item (clicked)="onPlayerClick($event)" *ngFor="let player of players$ | async" [player]="player"></app-player-item>
-  </ion-list>
-</ion-toolbar>
+<ion-searchbar show-clear-button="focus" placeholder="Buscar jugador" 
+(ionFocus)="onLoadPlayers()" (ionClear)="onLoadPlayers()" (ionInput)="onFilter($event)" 
+[debounce]="100"></ion-searchbar>
+<ion-list *ngIf="showList">
+  <ion-item *ngIf="player" [button]="true" (click)="onPlayerDeselect()">
+    <ion-input type="text" [readonly]="true">Quitar jugador</ion-input>
+  </ion-item>
+  <app-player-item (clicked)="onPlayerClick($event)" *ngFor="let player of players" [player]="player"></app-player-item>
+</ion-list>

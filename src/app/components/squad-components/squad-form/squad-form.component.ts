@@ -12,7 +12,6 @@ import { PlayerService } from 'src/app/services/player.service';
 })
 export class SquadFormComponent  implements OnInit {
 
-  playerSelected:Player | undefined
   playersAdded:Player[] = []
   form:FormGroup
   mode:'Edit' | 'New' = 'New'
@@ -24,6 +23,7 @@ export class SquadFormComponent  implements OnInit {
       this.form.controls['name'].setValue(_squad.name)
       this.form.controls['lineUp'].setValue(_squad.lineUp)
       this.form.controls['players'].setValue(_squad.players)
+      this.playersAdded = _squad.players
     }
   }
   constructor(
@@ -39,18 +39,24 @@ export class SquadFormComponent  implements OnInit {
     })
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log(this.form.controls['players'].value)
+  }
 
   onSubmit() {
     this.modal.dismiss(this.form.value, 'ok')
+  }
+
+  getPlayer(id:number) {
+    return this.playersAdded.find(p => p.id = id)
   }
 
   onSelectLineUp(popover:IonPopover, input:IonInput, lineUp:string) {
     this.form.controls['lineUp'].setValue(lineUp)
     this.lineUp = lineUp
     input.value = lineUp
-    this.form.controls['players'].setValue([])
     this.playersAdded = []
+    this.form.controls['players'].setValue([])
     popover.dismiss()
   }
 
@@ -62,11 +68,8 @@ export class SquadFormComponent  implements OnInit {
       this.playersAdded = _players
       console.log(this.playersAdded.length)
     }
-    this.playersAdded?.push(player)
-    console.log(this.playersAdded?.length)
-    console.log(player)
-    if (this.playersAdded?.length == 11) {
+    this.playersAdded.push(player)
+    if (this.playersAdded.length == 11)
       this.form.controls['players'].setValue(this.playersAdded)
-    }
   }
 }

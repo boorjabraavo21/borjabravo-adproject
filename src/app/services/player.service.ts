@@ -16,7 +16,7 @@ export class PlayerService {
   ) { }
 
   getAll():Observable<PaginatedPlayers> {
-    return this.dataService.get<PaginatedPlayers>("players").pipe(map(response => {
+    return this.dataService.query<any>("players?sort=id", {}).pipe(map(response => {
       return {
         data:response.data.map(player => {
           return {

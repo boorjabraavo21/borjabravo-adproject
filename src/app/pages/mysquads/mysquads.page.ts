@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { SquadFormComponent } from 'src/app/components/squad-components/squad-form/squad-form.component';
 import { Pagination } from 'src/app/interfaces/data';
+import { Player } from 'src/app/interfaces/player';
 import { Squad } from 'src/app/interfaces/squad';
 import { SquadService } from 'src/app/services/squad.service';
 
@@ -54,8 +55,20 @@ export class MySquadsPage implements OnInit {
 
   onNewSquad() {
     var onDismiss = (info:any) => {
-      info.data.players = info.data.players.map((p:any)=>p.id);
-      this.squads.addSquad(info.data).subscribe(_=>{
+      var squad:Squad = info.data
+      squad.players = squad.players.map(p => {
+        return {
+          id:p.id,
+          name:p.name,
+          position:p.position,
+          nation:p.nation,
+          age:p.age,
+          rating:p.rating,
+          team:p.team,
+          picture:p.picture
+        }
+      })
+      this.squads.addSquad(squad).subscribe(_=>{
         this.onLoadSquads()
       })
     }
@@ -64,7 +77,20 @@ export class MySquadsPage implements OnInit {
 
   onEditSquad(squad:Squad) {
     var onDismiss = (info:any) => {
-      this.squads.updateSquad(info.data).subscribe(_=>{
+      var squad:Squad = info.data
+      squad.players = squad.players.map(p => {
+        return {
+          id:p.id,
+          name:p.name,
+          position:p.position,
+          nation:p.nation,
+          age:p.age,
+          rating:p.rating,
+          team:p.team,
+          picture:p.picture
+        }
+      })
+      this.squads.updateSquad(squad).subscribe(_=>{
         this.onLoadSquads()
       })
     }

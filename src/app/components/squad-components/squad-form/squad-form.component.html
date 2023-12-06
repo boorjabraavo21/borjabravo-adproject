@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Crear plantilla</ion-title>
+    <ion-title>{{(mode=='New'?'Crear Plantilla':'Editar Plantilla')}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
@@ -20,73 +20,73 @@
         </ion-list>
       </ng-template>
     </ion-popover>
-    <ion-list *ngIf="formacion.value=='4-4-2'">
+    <ion-list *ngIf="formacion.value=='4-4-2'" formControlValue="players">
       <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[0]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[1]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
       </div>
       <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[2]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[3]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[4]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[5]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
       </div>
       <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[6]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[7]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[8]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[9]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
       </div>
       <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-      </div>
-    </ion-list>
-    <ion-list *ngIf="formacion.value=='4-3-3'">
-      <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-      </div>
-      <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-      </div>
-      <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-      </div>
-      <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[10]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
       </div>
     </ion-list>
-    <ion-list *ngIf="formacion.value=='3-4-3'">
+    <ion-list *ngIf="formacion.value=='4-3-3'" formControlValue="players">
       <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[0]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[1]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[2]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
       </div>
       <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[3]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[4]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[5]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
       </div>
       <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[6]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[7]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[8]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[9]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
       </div>
       <div class="positions">
-        <app-player-card (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[10]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+      </div>
+    </ion-list>
+    <ion-list *ngIf="formacion.value=='3-4-3'" formControlValue="players">
+      <div class="positions">
+        <app-player-card [player]="playersAdded[0]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[1]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[2]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+      </div>
+      <div class="positions">
+        <app-player-card [player]="playersAdded[3]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[4]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[5]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[6]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+      </div>
+      <div class="positions">
+        <app-player-card [player]="playersAdded[7]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[8]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+        <app-player-card [player]="playersAdded[9]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
+      </div>
+      <div class="positions">
+        <app-player-card [player]="playersAdded[10]" (onPlayerSelected)="onAddPlayer($event)"></app-player-card>
       </div>
     </ion-list>
   </form>
 </ion-content>
 <ion-footer>
   <ion-buttons>
-    <ion-button [disabled]="!form.valid" (click)="onSubmit()">Crear</ion-button>
+    <ion-button [disabled]="!form.valid" (click)="onSubmit()">{{(mode=='New'?'Crear':'Guardar')}}</ion-button>
   </ion-buttons>
 </ion-footer>

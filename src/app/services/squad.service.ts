@@ -25,9 +25,9 @@ export class SquadService {
   }
 
   getAll():Observable<PaginatedSquads> {
-    return this.dataSvc.get<PaginatedSquads>("squads?populate=players").pipe(map(response => {
+    return this.dataSvc.query<any>("squads?populate=players",{}).pipe(map(response => {
       return {
-        data:response.data.map((squad:any) => {
+        data:response.data.map(squad => {
           return {
             id:squad.id,
             name:squad.name,
@@ -35,13 +35,13 @@ export class SquadService {
             players:squad.players.data.map((player:any) => {
               return {
                 id:player.id,
-                name:player.name,
-                position:player.position,
-                nation:player.nation,
-                age:player.age,
-                rating:player.rating,
-                team:player.team,
-                picture:player.picture
+                name:player.attributes.name,
+                position:player.attributes.position,
+                nation:player.attributes.nation,
+                age:player.attributes.age,
+                rating:player.attributes.rating,
+                team:player.attributes.team,
+                picture:player.attributes.picture
               }
             })
           }
@@ -64,13 +64,13 @@ export class SquadService {
             players:squad.players.data.map((player:any) => {
               return {
                 id:player.id,
-                name:player.name,
-                position:player.position,
-                nation:player.nation,
-                age:player.age,
-                rating:player.rating,
-                team:player.team,
-                picture:player.picture
+                name:player.attributes.name,
+                position:player.attributes.position,
+                nation:player.attributes.nation,
+                age:player.attributes.age,
+                rating:player.attributes.rating,
+                team:player.attributes.team,
+                picture:player.attributes.picture
               }
             })
           }
@@ -90,13 +90,13 @@ export class SquadService {
         players:squad.players.data.map((player:any) => {
           return {
             id:player.id,
-            name:player.name,
-            position:player.position,
-            nation:player.nation,
-            age:player.age,
-            rating:player.rating,
-            team:player.team,
-            picture:player.picture
+            name:player.attributes.name,
+            position:player.attributes.position,
+            nation:player.attributes.nation,
+            age:player.attributes.age,
+            rating:player.attributes.rating,
+            team:player.attributes.team,
+            picture:player.attributes.picture
           }
         })
       }
@@ -104,7 +104,7 @@ export class SquadService {
   }
 
   updateSquad(squad:Squad):Observable<Squad> {
-    return this.dataSvc.put<any>(`squads/${squad.id}`,squad).pipe(map(squad => {
+    return this.dataSvc.put<any>(`squads/${squad.id}?populate=players`,squad).pipe(map(squad => {
       return {
         id:squad.id,
         name:squad.name,
@@ -112,13 +112,13 @@ export class SquadService {
         players:squad.players.data.map((player:any) => {
           return {
             id:player.id,
-            name:player.name,
-            position:player.position,
-            nation:player.nation,
-            age:player.age,
-            rating:player.rating,
-            team:player.team,
-            picture:player.picture
+            name:player.attributes.name,
+            position:player.attributes.position,
+            nation:player.attributes.nation,
+            age:player.attributes.age,
+            rating:player.attributes.rating,
+            team:player.attributes.team,
+            picture:player.attributes.picture
           }
         })
       }
