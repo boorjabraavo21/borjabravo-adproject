@@ -18,6 +18,7 @@ export class PlayerSearcherComponent  implements OnInit {
   private _pagination = new BehaviorSubject<Pagination>({page:0, pageCount: 0, pageSize: 0, total:0})
   public pagination$ = this._pagination.asObservable()
   @Input() player:Player | null = null
+  @Input() playersAdded:Player[] = []
   @Output() onPlayerClicked = new EventEmitter()
   hideList:boolean = true
 
@@ -30,24 +31,27 @@ export class PlayerSearcherComponent  implements OnInit {
     this.plySvc.query("").subscribe(response => {
       this._players.next(response.data)
       this._pagination.next(response.pagination)
-
       if(refresh)
         refresh.complete()
     })
     this.hideList = false
   }
 
+  getLoadedPlayers():Player[] {
+    var playersLoaded:Player[] = []
+    this.plySvc.getAll().subscribe(response => {
+      playersLoaded = response.data
+    })
+    return playersLoaded
+  }
+
   ngOnInit() {}
 
   private async filter(value:string){
+    console.log(this.getLoadedPlayers())
     const query = value;
-    const players = await lastValueFrom(this.plySvc.query(query))
-    this._players.subscribe(_players => {
-      _players = players.data.filter(u=>u.name.toLowerCase().includes(query.toLowerCase()))
-    }) 
-    this._pagination.subscribe(_pagination => {
-      _pagination = players.pagination
-    })
+    const players = this.getLoadedPlayers()
+    players.filter(p => p.name.toLowerCase().includes(query.toLowerCase()) && !this.playersAdded.includes(p))
   }
 
   onFilter(evt:any){

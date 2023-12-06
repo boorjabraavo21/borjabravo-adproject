@@ -25,14 +25,25 @@ export class SquadService {
   }
 
   getAll():Observable<PaginatedSquads> {
-    return this.dataSvc.get<PaginatedSquads>("squads").pipe(map(response => {
+    return this.dataSvc.get<PaginatedSquads>("squads?populate=players").pipe(map(response => {
       return {
-        data:response.data.map(squad => {
+        data:response.data.map((squad:any) => {
           return {
             id:squad.id,
             name:squad.name,
             lineUp:squad.lineUp,
-            players:squad.players
+            players:squad.players.data.map((player:any) => {
+              return {
+                id:player.id,
+                name:player.name,
+                position:player.position,
+                nation:player.nation,
+                age:player.age,
+                rating:player.rating,
+                team:player.team,
+                picture:player.picture
+              }
+            })
           }
         }),
         pagination:response.pagination
@@ -43,14 +54,25 @@ export class SquadService {
   }
 
   query(q:string):Observable<PaginatedSquads> {
-    return this.dataSvc.query<any>("squads?=q"+q, {}).pipe(map(response => {
+    return this.dataSvc.query<any>("squads?q="+q+"&populate=players", {}).pipe(map(response => {
       return {
         data:response.data.map(squad => {
           return {
             id:squad.id,
             name:squad.name,
             lineUp:squad.lineUp,
-            players:squad.players
+            players:squad.players.data.map((player:any) => {
+              return {
+                id:player.id,
+                name:player.name,
+                position:player.position,
+                nation:player.nation,
+                age:player.age,
+                rating:player.rating,
+                team:player.team,
+                picture:player.picture
+              }
+            })
           }
         }),
         pagination:response.pagination
@@ -60,23 +82,45 @@ export class SquadService {
   }
 
   getSquad(id:number):Observable<Squad> {
-    return this.dataSvc.get<Squad>(`squads/${id}`).pipe(map(squad => {
+    return this.dataSvc.get<any>(`squads/${id}`).pipe(map(squad => {
       return {
         id:squad.id,
         name:squad.name,
         lineUp:squad.lineUp,
-        players:squad.players
+        players:squad.players.data.map((player:any) => {
+          return {
+            id:player.id,
+            name:player.name,
+            position:player.position,
+            nation:player.nation,
+            age:player.age,
+            rating:player.rating,
+            team:player.team,
+            picture:player.picture
+          }
+        })
       }
     }))
   }
 
   updateSquad(squad:Squad):Observable<Squad> {
-    return this.dataSvc.put<Squad>(`squads/${squad.id}`,squad).pipe(map(squad => {
+    return this.dataSvc.put<any>(`squads/${squad.id}`,squad).pipe(map(squad => {
       return {
         id:squad.id,
         name:squad.name,
         lineUp:squad.lineUp,
-        players:squad.players
+        players:squad.players.data.map((player:any) => {
+          return {
+            id:player.id,
+            name:player.name,
+            position:player.position,
+            nation:player.nation,
+            age:player.age,
+            rating:player.rating,
+            team:player.team,
+            picture:player.picture
+          }
+        })
       }
     }))
   }

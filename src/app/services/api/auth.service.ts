@@ -9,7 +9,7 @@ import { User } from '../../interfaces/user';
 })
 export abstract class AuthService {
 
-  protected _logged = new BehaviorSubject<boolean|null>(null);
+  protected _logged = new BehaviorSubject<boolean>(true);
   public isLogged$ = this._logged.asObservable();
   protected _user = new BehaviorSubject<User|null>(null);
   public user$ = this._user.asObservable();

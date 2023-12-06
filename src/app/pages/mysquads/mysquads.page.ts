@@ -54,6 +54,7 @@ export class MySquadsPage implements OnInit {
 
   onNewSquad() {
     var onDismiss = (info:any) => {
+      info.data.players = info.data.players.map((p:any)=>p.id);
       this.squads.addSquad(info.data).subscribe(_=>{
         this.onLoadSquads()
       })

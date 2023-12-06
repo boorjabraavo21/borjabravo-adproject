@@ -1,6 +1,6 @@
-import { Inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy, Router } from '@angular/router';
+import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy, Platform } from '@ionic/angular';
 
@@ -57,22 +57,6 @@ export function AuthServiceFactory(
     SharedModule
     ],
   providers: [
-    {
-      provide: 'home',
-      useValue:'/home'
-    },
-    {
-      provide: 'login',
-      useValue:'/login'
-    },
-    {
-      provide: 'afterLogin',
-      useValue:'/home'
-    },
-    {
-      provide: 'splash',
-      useValue:'/splash'
-    },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: HttpClientProvider,
@@ -89,8 +73,6 @@ export function AuthServiceFactory(
       deps: [ApiService],
       useFactory: DataServiceFactory,  
     },
-    
-    
   ],
   bootstrap: [AppComponent],
 })

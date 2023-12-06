@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController, ToastController, ToastOptions } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { PlayerFormComponent } from 'src/app/components/player-components/player-form/player-form.component';
 import { Pagination } from 'src/app/interfaces/data';
 import { Player } from 'src/app/interfaces/player';
@@ -32,7 +32,7 @@ export class MyplayersPage implements OnInit {
 
   async onLoadPlayers(page:number = 0, refresh:any = null) {
     this.playerSvc.query("").subscribe(response => {
-      this._players.next(response.data)
+      this._players.next(response.data.filter(p => p.team=="Created"))
       this._pagination.next(response.pagination)
 
       if(refresh)
