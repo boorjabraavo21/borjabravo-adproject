@@ -1,4 +1,5 @@
 import { PaginatedData } from "./data"
+import { Media } from "./media"
 
 export interface Player {
     id?:number,
@@ -8,7 +9,10 @@ export interface Player {
     age:number,
     rating:number,
     team?:string,
-    picture?:string | null
+    picture?:Media | null,
+    matches:number,
+    numbers:number,
+    assists:number
 }
 
 export type PaginatedPlayers = PaginatedData<Player>

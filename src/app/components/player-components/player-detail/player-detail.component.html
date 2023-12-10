@@ -1,15 +1,26 @@
-<ion-header>
+<ion-card>
   <div class="flex">
-    <img alt="Player image" src={{player?.picture}}>
+    <img *ngIf="player" alt="Player photo"  [src]="player.picture?.url_thumbnail" />
     <div>
-      <ion-title>{{player?.name}}</ion-title>
-      <div class="flex">
-        <h2>Rating: {{player?.rating}}</h2>
-        <h2>Position: {{player?.position}}</h2>
+      <h1>{{player?.name}}</h1>
+      <div class="info">
+        <h2>{{ 'player.ratingLabel' | translate }}: {{player?.rating}}</h2>
+        <h2>{{ 'player.positionLabel' | translate }}: {{player?.position}}</h2>
       </div>
-      <p>He is a {{player?.age}} years old player from {{player?.nation}} playing at {{player?.team}}</p>
+      <div class="info">
+        <h2>{{ 'player.ageLabel' | translate }}: {{player?.age}}</h2>
+        <h2>{{ 'player.teamLabel' | translate }}: {{player?.team}}</h2>
+      </div>
+      <h3>{{ 'player.statsLabel' | translate }} (2022/2023):</h3>
+      <ion-list *ngIf="player?.position != 'GK'">
+        <p>{{ 'player.matchesLabel' | translate}}: {{player?.matches}}</p>
+        <p>{{ 'player.goalsLabel' | translate}}: {{player?.numbers}}</p>
+        <p>{{ 'player.assistsLabel' | translate}}: {{player?.assists}}</p>
+      </ion-list>
+      <ion-list *ngIf="player?.position == 'GK'">
+        <p>{{ 'player.matchesLabel' | translate}}: {{player?.matches}}</p>
+        <p>{{ 'player.cleanSheetsLabel' | translate}}: {{player?.numbers}}</p>
+      </ion-list>
     </div>
   </div>
-</ion-header>
-<ion-content>
-</ion-content>
+</ion-card>

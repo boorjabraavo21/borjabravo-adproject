@@ -5,6 +5,7 @@ import { BehaviorSubject, map } from 'rxjs';
 import { PlayerFormComponent } from 'src/app/components/player-components/player-form/player-form.component';
 import { Pagination } from 'src/app/interfaces/data';
 import { Player } from 'src/app/interfaces/player';
+import { MediaService } from 'src/app/services/api/media.service';
 import { PlayerService } from 'src/app/services/player.service';
 
 @Component({
@@ -14,29 +15,33 @@ import { PlayerService } from 'src/app/services/player.service';
 })
 export class MyplayersPage implements OnInit {
   
-  private _players = new BehaviorSubject<Player[]>([])
+  private _players = new BehaviorSubject<Player[] | null>([])
   public players$ = this._players.asObservable()
   private _pagination = new BehaviorSubject<Pagination>({page:0, pageCount: 0, pageSize:0, total:0})
   public pagination$ = this._pagination.asObservable()
+  loading:boolean = false
 
   constructor(
     public playerSvc:PlayerService,
     private modal:ModalController,
     private toast:ToastController,
-    private router:Router
+    private mediaSvc:MediaService
   ) { }
 
   ngOnInit() {
+    this.loading = true
     this.onLoadPlayers()
+    
   }
 
   async onLoadPlayers(page:number = 0, refresh:any = null) {
     this.playerSvc.query("").subscribe(response => {
-      this._players.next(response.data.filter(p => p.team=="Created"))
+      this._players.next(response.data)
       this._pagination.next(response.pagination)
 
       if(refresh)
         refresh.complete()
+      this.loading = false
     })
   }
 
@@ -55,24 +60,39 @@ export class MyplayersPage implements OnInit {
     })
   }
 
+  private dataURLtoBlob( dataUrl:string, callback:(blob:Blob)=>void ){
+    var req = new XMLHttpRequest;
+
+    req.open( 'GET', dataUrl );
+    req.responseType = 'arraybuffer';
+
+    req.onload = function fileLoaded(e)
+    {
+        var mime = this.getResponseHeader('content-type');
+
+        callback( new Blob([this.response], {type:mime || undefined}) );
+    };
+
+    req.send();
+  }
+
   onNewPlayer() {
     var onDismiss = (info:any) => {
-      this.playerSvc.addPlayer(info.data).subscribe({
-        next: async obs => {
+      if(info.data.picture) {
+        this.dataURLtoBlob(info.data.picture,(blob:Blob) => {
+          this.mediaSvc.upload(blob).subscribe((media:number[])=> {
+            info.data.picture = media[0]
+            this.playerSvc.addPlayer(info.data).subscribe(_=>{
+              this.onLoadPlayers()
+            })
+          })
+        })
+      } else if (info.data.picture=="") {
+        info.data.picture = null
+        this.playerSvc.addPlayer(info.data).subscribe(_=>{
           this.onLoadPlayers();
-          const options:ToastOptions = {
-            message:`User created`, //mensaje del toast
-            duration:1000, // 1 segundo
-            position:'bottom', // el toast se situa en la parte inferior
-            color:'tertiary', // color del toast
-            cssClass:'fav-ion-toast'
-            }
-          this.toast.create(options).then(toast=>toast.present())
-        },
-        error: err => {
-          console.log(err)
-        }
-      })
+        })
+      }
     }
     this.presentForm(null, onDismiss)
   }
@@ -96,28 +116,24 @@ export class MyplayersPage implements OnInit {
     })
   }
 
-  toPlayerPage(id:number | undefined) {
-    this.router.navigate(['/player-info', id])
-  }
-
   onEditPlayer(player:Player) {
     var onDismiss = (info:any) => {
-      this.playerSvc.updatePlayer(info.data).subscribe({
-        next: obs => {
+      if(info.data.picture) {
+        this.dataURLtoBlob(info.data.picture,(blob:Blob) => {
+          this.mediaSvc.upload(blob).subscribe((media:number[])=> {
+            info.data.picture = media[0]
+            let _player = {id:player.id,...info.data}
+            this.playerSvc.updatePlayer(_player).subscribe(_=>{
+              this.onLoadPlayers();
+            })
+          })
+        })
+      } else if (info.data.picture=="") {
+        info.data.picture = null
+        this.playerSvc.updatePlayer(info.data).subscribe(_=>{
           this.onLoadPlayers();
-          const options:ToastOptions = {
-            message:`User edited`, //mensaje del toast
-            duration:1000, // 1 segundo
-            position:'bottom', // el toast se situa en la parte inferior
-            color:'tertiary', // color del toast
-            cssClass:'fav-ion-toast'
-            }
-          this.toast.create(options).then(toast=>toast.present())
-        },
-        error: err => {
-          console.log(err)
-        }
-      })
+        })
+      }
     }
     this.presentForm(player, onDismiss)
   }

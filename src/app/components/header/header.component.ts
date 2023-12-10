@@ -7,7 +7,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class HeaderComponent  implements OnInit {
 
-  @Input() username:string|undefined = "Invitado";
+  @Input() username:string|undefined
   @Input() nickname:string|undefined
   @Input() languages:string[] = ["es","en"];
   @Input() languageSelected:string = "es";

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { PaginatedSquads, Squad } from '../interfaces/squad';
-import { HttpClient } from '@angular/common/http';
 import { DataService } from './api/data.service';
 
 @Injectable({
@@ -13,7 +12,6 @@ export class SquadService {
   public squads$ = this._squads.asObservable()
 
   constructor(
-    private http:HttpClient,
     private dataSvc:DataService
   ) { }
 
@@ -25,7 +23,7 @@ export class SquadService {
   }
 
   getAll():Observable<PaginatedSquads> {
-    return this.dataSvc.query<any>("squads?populate=players",{}).pipe(map(response => {
+    return this.dataSvc.query<any>("squads?populate[players][populate][0]=picture",{}).pipe(map(response => {
       return {
         data:response.data.map(squad => {
           return {
@@ -41,7 +39,16 @@ export class SquadService {
                 age:player.attributes.age,
                 rating:player.attributes.rating,
                 team:player.attributes.team,
-                picture:player.attributes.picture
+                matches:player.attributes.matches,
+                numbers:player.attributes.numbers,
+                assists:player.attributes.assists,
+                picture:player.attributes.picture?.data?{
+                  id: player.attributes.picture.data.id,
+                  url_large: player.attributes.picture.data.attributes.formats.large?.url,
+                  url_small: player.attributes.picture.data.attributes.formats.small?.url,
+                  url_medium:player.attributes.picture.data.attributes.formats.medium?.url,
+                  url_thumbnail:player.attributes.picture.data.attributes.formats.thumbnail?.url,
+                }:null
               }
             })
           }
@@ -54,7 +61,7 @@ export class SquadService {
   }
 
   query(q:string):Observable<PaginatedSquads> {
-    return this.dataSvc.query<any>("squads?q="+q+"&populate=players", {}).pipe(map(response => {
+    return this.dataSvc.query<any>("squads?populate[players][populate][0]=picture", {}).pipe(map(response => {
       return {
         data:response.data.map(squad => {
           return {
@@ -70,7 +77,16 @@ export class SquadService {
                 age:player.attributes.age,
                 rating:player.attributes.rating,
                 team:player.attributes.team,
-                picture:player.attributes.picture
+                matches:player.attributes.matches,
+                numbers:player.attributes.numbers,
+                assists:player.attributes.assists,
+                picture:player.attributes.picture?.data?{
+                  id: player.attributes.picture.data.id,
+                  url_large: player.attributes.picture.data.attributes.formats.large?.url,
+                  url_small: player.attributes.picture.data.attributes.formats.small?.url,
+                  url_medium:player.attributes.picture.data.attributes.formats.medium?.url,
+                  url_thumbnail:player.attributes.picture.data.attributes.formats.thumbnail?.url,
+                }:null
               }
             })
           }
@@ -78,11 +94,10 @@ export class SquadService {
         pagination:response.pagination
       }
     }))
-    // return this.http.get<Player[]>(environment.jsonUrl+"/players?=q"+q)
   }
 
   getSquad(id:number):Observable<Squad> {
-    return this.dataSvc.get<any>(`squads/${id}`).pipe(map(squad => {
+    return this.dataSvc.get<any>(`squads/${id}?populate[players][populate][0]=picture`).pipe(map(squad => {
       return {
         id:squad.id,
         name:squad.name,
@@ -96,7 +111,16 @@ export class SquadService {
             age:player.attributes.age,
             rating:player.attributes.rating,
             team:player.attributes.team,
-            picture:player.attributes.picture
+            matches:player.attributes.matches,
+            numbers:player.attributes.numbers,
+            assists:player.attributes.assists,
+            picture:player.attributes.picture?.data?{
+              id: player.attributes.picture.data.id,
+              url_large: player.attributes.picture.data.attributes.formats.large?.url,
+              url_small: player.attributes.picture.data.attributes.formats.small?.url,
+              url_medium:player.attributes.picture.data.attributes.formats.medium?.url,
+              url_thumbnail:player.attributes.picture.data.attributes.formats.thumbnail?.url,
+            }:null
           }
         })
       }
@@ -104,7 +128,7 @@ export class SquadService {
   }
 
   updateSquad(squad:Squad):Observable<Squad> {
-    return this.dataSvc.put<any>(`squads/${squad.id}?populate=players`,squad).pipe(map(squad => {
+    return this.dataSvc.put<any>(`squads/${squad.id}?populate[players][populate][0]=picture`,squad).pipe(map(squad => {
       return {
         id:squad.id,
         name:squad.name,
@@ -118,7 +142,16 @@ export class SquadService {
             age:player.attributes.age,
             rating:player.attributes.rating,
             team:player.attributes.team,
-            picture:player.attributes.picture
+            matches:player.attributes.matches,
+            numbers:player.attributes.numbers,
+            assists:player.attributes.assists,
+            picture:player.attributes.picture?.data?{
+              id: player.attributes.picture.data.id,
+              url_large: player.attributes.picture.data.attributes.formats.large?.url,
+              url_small: player.attributes.picture.data.attributes.formats.small?.url,
+              url_medium:player.attributes.picture.data.attributes.formats.medium?.url,
+              url_thumbnail:player.attributes.picture.data.attributes.formats.thumbnail?.url,
+            }:null
           }
         })
       }

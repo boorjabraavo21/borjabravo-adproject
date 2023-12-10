@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { HttpClientProvider } from './http-client.provider';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';

@@ -19,6 +19,7 @@ export const PLAYER_CARD_VALUE_ACCESOR = {
 export class PlayerCardComponent  implements OnInit, ControlValueAccessor {
 
   @Input() player: Player | null = null
+  @Input() pAdded:Player[] = []
   @Output() onPlayerSelected = new EventEmitter()
   onChange?:(obj: any) => void
   disable:boolean = false
@@ -45,14 +46,14 @@ export class PlayerCardComponent  implements OnInit, ControlValueAccessor {
       component:PlayerSearcherComponent,
       componentProps:{
         player:this.player,
-      }
+        playersSelected:this.pAdded
+      },
     })
     popover.present()
     const { data, role } = await popover.onWillDismiss()
     if (role === 'ok') {
-      this.player = data
-      this.onPlayerSelected.emit(this.player)
-      this.onChange?.(this.player)
+      this.onPlayerSelected.emit(data)
+      this.onChange?.(data)
     }
   }
 }

@@ -20,6 +20,7 @@ export class HomePage implements OnInit {
   @Output() onPlayerClicked = new EventEmitter()
   constructor(
     public players:PlayerService,
+    private auth:AuthService,
     private router:Router
   ) {}
 

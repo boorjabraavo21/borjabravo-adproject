@@ -1,12 +1,12 @@
-<ion-card (click)="onEditClick($event)">
+<ion-card appHighlight>
   <ion-card-header>
-    <ion-item [button]="true">
-      <ion-icon slot="end" name="trash-outline" (click)="deleteSquad($event)"></ion-icon>
-    </ion-item>
-    <ion-title>{{squad?.name}}</ion-title>
-    <ion-text>{{squad?.lineUp}}</ion-text>
+    <ion-buttons>
+      <ion-button (click)="deleteSquad($event)"><ion-icon name="trash-outline"></ion-icon></ion-button>
+      <ion-button (click)="onEditClick($event)"><ion-icon name="pencil-outline"></ion-icon></ion-button>
+    </ion-buttons>
   </ion-card-header>
   <ion-card-content>
-    
+    <ion-card-title>{{squad?.name}}</ion-card-title>
+    <ion-text>{{squad?.lineUp}}</ion-text>
   </ion-card-content>
 </ion-card>

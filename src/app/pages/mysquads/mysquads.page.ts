@@ -18,12 +18,14 @@ export class MySquadsPage implements OnInit {
   public squads$ = this._squads.asObservable()
   private _pagination = new BehaviorSubject<Pagination>({page:0, pageCount: 0, pageSize:0, total:0})
   public pagination$ = this._pagination.asObservable()
+  loading:boolean = false
   constructor(
     public squads:SquadService,
     private modal:ModalController
   ) { }
 
   ngOnInit() {
+    this.loading = true
     this.onLoadSquads()
   }
 
@@ -31,10 +33,11 @@ export class MySquadsPage implements OnInit {
     this.squads.query("").subscribe(response => {
       this._squads.next(response.data)
       this._pagination.next(response.pagination)
-    })
 
-    if(refresh)
+      if(refresh)
       refresh.complete()
+      this.loading = false
+    })
   }
 
   async presentForm(data:Squad | null, onDismiss:(result:any)=>void) {
@@ -65,7 +68,10 @@ export class MySquadsPage implements OnInit {
           age:p.age,
           rating:p.rating,
           team:p.team,
-          picture:p.picture
+          picture:p.picture,
+          matches:p.matches,
+          numbers:p.numbers,
+          assists:p.assists,
         }
       })
       this.squads.addSquad(squad).subscribe(_=>{
@@ -87,7 +93,10 @@ export class MySquadsPage implements OnInit {
           age:p.age,
           rating:p.rating,
           team:p.team,
-          picture:p.picture
+          picture:p.picture,
+          matches:p.matches,
+          numbers:p.numbers,
+          assists:p.assists,
         }
       })
       this.squads.updateSquad(squad).subscribe(_=>{

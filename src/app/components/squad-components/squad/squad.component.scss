@@ -1,7 +1,31 @@
-img {
-    width: 500px;
+ion-card {
+    width: 250px;
+    background-image: url("../../../../assets/red_background.jpg");
+    background-size: 250px 100px;
 }
 
-ion-card {
-    width: 500px;
+
+* {
+    color: white;
+}
+
+
+ion-buttons {
+    position: absolute;
+    right: 0;
+    top:0
+}
+
+@media (max-width: 990px) {
+    ion-card {
+      width: 200px;
+      background-size: 200px 100px;
+    }
+}
+
+@media (max-width: 450px) {
+    ion-card {
+        width: 150px;
+        background-size: 150px 80px;
+    }
 }

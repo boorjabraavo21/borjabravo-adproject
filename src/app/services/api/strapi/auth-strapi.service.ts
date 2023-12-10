@@ -1,4 +1,4 @@
-import { Observable, lastValueFrom, map } from 'rxjs';
+import { BehaviorSubject, Observable, lastValueFrom, map } from 'rxjs';
 import { UserCredentials } from '../../../interfaces/user-credentials';
 import { UserRegisterInfo } from '../../../interfaces/user-register-info';
 import { JwtService } from '../../jwt.service';
@@ -13,7 +13,6 @@ export class AuthStrapiService extends AuthService{
   constructor(
     private jwtSvc:JwtService,
     private apiSvc:ApiService
-    
   ) { 
     super();
     this.jwtSvc.loadToken().subscribe(token=>{
@@ -67,7 +66,7 @@ export class AuthStrapiService extends AuthService{
     return new Observable<User>(obs=>{
       const _info:StrapiRegisterPayload = {
         email:info.email,
-        username:info.username,
+        username:info.nickname,
         password:info.password
       }
       this.apiSvc.post("/auth/local/register", _info).subscribe({
@@ -77,10 +76,11 @@ export class AuthStrapiService extends AuthService{
           const _extended_user:StrapiExtendedUser= {
             name:info.name,
             surname:info.surname,
-            user_id:data.user.id
+            user_id:data.user.id,
+            nickname:info.nickname
           }
           try {
-            await lastValueFrom(this.apiSvc.post("/extended-users", {data:_extended_user}));
+            await lastValueFrom(this.apiSvc.post("/extend-users", {data:_extended_user}));
             const user = await lastValueFrom(this.me());
             this._user.next(user);
             this._logged.next(true);
@@ -100,13 +100,17 @@ export class AuthStrapiService extends AuthService{
 
   public me():Observable<User>{
     return new Observable<User>(obs=>{
-      this.apiSvc.get('/users/me').subscribe({
+      this.apiSvc.get(`/users/me`).subscribe({
         next:async (user:StrapiUser)=>{
-          let extended_user:StrapiArrayResponse<StrapiExtendedUser> = await lastValueFrom(this.apiSvc.get(`/extend-users?filters[id]=${user.id}`));
+          console.log(user.id)
+          let extended_user:StrapiArrayResponse<StrapiExtendedUser> = 
+          await lastValueFrom(this.apiSvc.get(`/extend-users?filters[id]=${user.id}`));
+          console.log(extended_user)
           let ret:User = {
             id:user.id,
             name:extended_user.data[0].attributes.name,
             surname:extended_user.data[0].attributes.surname,
+            nickname:user.username
           }
           obs.next(ret);
           obs.complete();
@@ -115,7 +119,6 @@ export class AuthStrapiService extends AuthService{
           obs.error(err);
         }
       });
-    });
-    
+    })
   }
 }

@@ -35,7 +35,7 @@ export class SquadFormComponent  implements OnInit {
       id:[null],
       name:['',[Validators.required]],
       lineUp:['',[Validators.required]],
-      players:[[],[Validators.required]]
+      players:[,[Validators.required]]
     })
   }
 
@@ -47,28 +47,23 @@ export class SquadFormComponent  implements OnInit {
     this.modal.dismiss(this.form.value, 'ok')
   }
 
-  getPlayer(id:number) {
-    return this.playersAdded.find(p => p.id = id)
-  }
-
   onSelectLineUp(popover:IonPopover, input:IonInput, lineUp:string) {
     this.form.controls['lineUp'].setValue(lineUp)
     this.lineUp = lineUp
     input.value = lineUp
-    this.playersAdded = []
     this.form.controls['players'].setValue([])
+    this.playersAdded = []
     popover.dismiss()
   }
 
-  onAddPlayer(player:Player) {
-    const index = this.playersAdded?.findIndex(p => p != null)
-    if(index) {
-      var _players = [...this.playersAdded!!]
-      _players = [..._players.slice(0, index),..._players.slice(index+1)]
-      this.playersAdded = _players
-      console.log(this.playersAdded.length)
+  onAddPlayer(player:Player | null, index:number) {
+    console.log(index)
+    if(player == null && this.playersAdded[index]) {
+      const _players = [...this.playersAdded]
+      this.playersAdded = [..._players.slice(0,index),..._players.slice(index+1)]
     }
-    this.playersAdded.push(player)
+    this.playersAdded[index] = player!!
+    console.log(this.playersAdded)
     if (this.playersAdded.length == 11)
       this.form.controls['players'].setValue(this.playersAdded)
   }

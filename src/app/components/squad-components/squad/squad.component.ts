@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Player } from 'src/app/interfaces/player';
 import { Squad } from 'src/app/interfaces/squad';
 
 @Component({

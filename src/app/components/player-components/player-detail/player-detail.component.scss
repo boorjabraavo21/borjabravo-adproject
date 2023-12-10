@@ -1,13 +1,22 @@
-ion-header {
-    padding: 20px;
-}
-
 .flex {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around
+}
+
+.info{
+    width: 500px;
+    display: flex;
+    justify-content: space-between
 }
 
 img {
-    width: 200px;
+    width: 300px;
     height: auto;
+}
+
+ion-card {
+    width: 1000px;
+    height: auto;
+    padding: 20px;
+    border-style: hidden;
 }

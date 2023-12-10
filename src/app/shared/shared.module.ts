@@ -16,10 +16,16 @@ import { HeaderComponent } from '../components/header/header.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { createTranslateLoader } from '../services/custom-translate.service';
 import { HttpClient } from '@angular/common/http';
+import { RegisterFormComponent } from '../components/register-form/register-form.component';
+import { CreatedPipe } from '../pipes/created.pipe';
+import { OriginalPlayerPipe } from '../pipes/original-player.pipe';
+import { PictureSelectableComponent } from '../components/picture-selectable/picture-selectable.component';
+import { HighlightDirective } from '../directives/highlight.directive';
 
 @NgModule({
   declarations: [ SquadFormComponent, SquadComponent, LoginFormComponent, PlayerCardComponent, 
-    PlayerComponent, PlayerDetailComponent, PlayerFormComponent, PlayerItemComponent, PlayerSearcherComponent, HeaderComponent],
+    PlayerComponent, PlayerDetailComponent, PlayerFormComponent, PlayerItemComponent, PlayerSearcherComponent,
+     HeaderComponent, RegisterFormComponent, CreatedPipe, OriginalPlayerPipe, PictureSelectableComponent, HighlightDirective],
   imports: [
     CommonModule,
     FormsModule,
@@ -38,6 +44,8 @@ import { HttpClient } from '@angular/common/http';
     FormsModule,
     IonicModule,ReactiveFormsModule,
     RouterModule, TranslateModule, SquadFormComponent, SquadComponent, LoginFormComponent, PlayerCardComponent, 
-    PlayerComponent, PlayerDetailComponent, PlayerFormComponent, PlayerItemComponent, PlayerSearcherComponent, HeaderComponent]
+    PlayerComponent, PlayerDetailComponent, PlayerFormComponent, PlayerItemComponent,
+     PlayerSearcherComponent, HeaderComponent, RegisterFormComponent, CreatedPipe, 
+     OriginalPlayerPipe, PictureSelectableComponent, HighlightDirective]
 })
 export class SharedModule { }

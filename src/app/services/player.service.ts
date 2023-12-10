@@ -16,7 +16,7 @@ export class PlayerService {
   ) { }
 
   getAll():Observable<PaginatedPlayers> {
-    return this.dataService.query<any>("players?sort=id", {}).pipe(map(response => {
+    return this.dataService.query<any>("players?populate=picture&sort=id", {}).pipe(map(response => {
       return {
         data:response.data.map(player => {
           return {
@@ -27,7 +27,16 @@ export class PlayerService {
             age:player.age,
             rating:player.rating,
             team:player.team,
-            picture:player.picture
+            matches:player.matches,
+            numbers:player.numbers,
+            assists:player.assists,
+            picture:player.picture?.data?{
+              id: player.picture.data.id,
+              url_large: player.picture.data.attributes.formats.large?.url,
+              url_small: player.picture.data.attributes.formats.small?.url,
+              url_medium:player.picture.data.attributes.formats.medium?.url,
+              url_thumbnail:player.picture.data.attributes.formats.thumbnail?.url,
+            }:null
           }
         }),
         pagination:response.pagination
@@ -38,7 +47,7 @@ export class PlayerService {
   }
 
   getPlayer(id:number):Observable<Player> {
-    return this.dataService.get<any>(`players/${id}`).pipe(map(response => {
+    return this.dataService.get<any>(`players/${id}?populate=picture`).pipe(map(response => {
       return {
         id:response.id,
         name:response.name,
@@ -47,13 +56,22 @@ export class PlayerService {
         age:response.age,
         rating:response.rating,
         team:response.team,
-        picture:response.picture
+        matches:response.matches,
+        numbers:response.numbers,
+        assists:response.assists,
+        picture:response.picture?.data?{
+          id: response.picture.data.id,
+          url_large: response.picture.data.attributes.formats.large?.url,
+          url_small: response.picture.data.attributes.formats.small?.url,
+          url_medium:response.picture.data.attributes.formats.medium?.url,
+          url_thumbnail:response.picture.data.attributes.formats.thumbnail?.url,
+        }:null
       }
     }))
   }
 
   query(q:string):Observable<PaginatedPlayers> {
-    return this.dataService.query<any>("players?sort=id", {}).pipe(map(response => {
+    return this.dataService.query<any>("players?populate=picture&sort=id", {}).pipe(map(response => {
       return {
         data:response.data.map(player => {
           return {
@@ -64,7 +82,16 @@ export class PlayerService {
             age:player.age,
             rating:player.rating,
             team:player.team,
-            picture:player.picture
+            matches:player.matches,
+            numbers:player.numbers,
+            assists:player.assists,
+            picture:player.picture?.data?{
+              id: player.picture.data.id,
+              url_large: player.picture.data.attributes.formats.large?.url,
+              url_small: player.picture.data.attributes.formats.small?.url,
+              url_medium:player.picture.data.attributes.formats.medium?.url,
+              url_thumbnail:player.picture.data.attributes.formats.thumbnail?.url,
+            }:null
           }
         }),
         pagination:response.pagination
@@ -74,8 +101,7 @@ export class PlayerService {
 
   addPlayer(player:Player):Observable<Player> {
     delete player.id
-    if(player.picture=="")
-      player.picture = null;
+    player.picture = null;
     player.team = "Created"
     return this.dataService.post<Player>("players", player).pipe(tap(_=>{
       this.getAll().subscribe()
@@ -92,7 +118,16 @@ export class PlayerService {
         age:response.age,
         rating:response.rating,
         team:response.team,
-        picture:response.picture
+        matches:response.matches,
+        numbers:response.numbers,
+        assists:response.assists,
+        picture:response.picture?.data?{
+          id: response.picture.data.id,
+          url_large: response.picture.data.attributes.formats.large?.url,
+          url_small: response.picture.data.attributes.formats.small?.url,
+          url_medium:response.picture.data.attributes.formats.medium?.url,
+          url_thumbnail:response.picture.data.attributes.formats.thumbnail?.url,
+        }:null
       }
     }))
   }

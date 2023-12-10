@@ -1,7 +1,7 @@
-export interface UserRegisterInfo {
+export interface UserRegisterInfo{
     email:string,
-    username:string,
-    password:string,
     name:string,
-    surname:string
+    surname:string,
+    password:string,
+    nickname:string
 }

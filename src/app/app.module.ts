@@ -18,12 +18,12 @@ import { HttpClientProvider } from './services/http/http-client.provider';
 import { AuthService } from './services/api/auth.service';
 import { DataService } from './services/api/data.service';
 import { AuthStrapiService } from './services/api/strapi/auth-strapi.service';
+import { MediaStrapiService } from './services/api/strapi/media-strapi.service';
+import { MediaService } from './services/api/media.service';
 
 export function DataServiceFactory(
   api:ApiService){
-    
-        return new DataStrapiService(api);
-      
+  return new DataStrapiService(api);
 } 
 export function httpProviderFactory(
   http:HttpClient,
@@ -31,13 +31,16 @@ export function httpProviderFactory(
   return new HttpClientWebProvider(http);
 }
 
+export function MediaServiceFactory(
+  api:ApiService){
+  return new MediaStrapiService(api);
+}
+
 export function AuthServiceFactory(
   jwt:JwtService,
-  api:ApiService
+  api:ApiService,
 ) {
-    
-        return new AuthStrapiService(jwt, api);
-      
+    return new AuthStrapiService(jwt, api);  
 }
 
 @NgModule({
@@ -73,6 +76,11 @@ export function AuthServiceFactory(
       deps: [ApiService],
       useFactory: DataServiceFactory,  
     },
+    {
+      provide: MediaService,
+      deps: [ApiService],
+      useFactory: MediaServiceFactory
+    }
   ],
   bootstrap: [AppComponent],
 })
