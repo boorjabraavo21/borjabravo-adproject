@@ -101,14 +101,6 @@ export class MyplayersPage implements OnInit {
     this.playerSvc.deletePlayer(player).subscribe({
       next: obs => {
         this.onLoadPlayers();
-        const options:ToastOptions = {
-          message:`User deleted`, //mensaje del toast
-          duration:1000, // 1 segundo
-          position:'bottom', // el toast se situa en la parte inferior
-          color:'danger', // color del toast
-          cssClass:'fav-ion-toast'
-          }
-      this.toast.create(options).then(toast=>toast.present())
       },
       error: err => {
         console.log(err)
