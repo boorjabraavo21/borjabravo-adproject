@@ -5,9 +5,7 @@
 </ion-header>
 <ion-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()">
-    <ion-item>
-      <app-picture-selectable formControlName="picture"></app-picture-selectable>
-    </ion-item>
+    <app-picture-selectable formControlName="picture"></app-picture-selectable>
     <ion-item>
       <ion-input label="{{'player.nameLabel' | translate }}" placeholder="Escribe el nombre" labelPlacement="fixed" type="text" formControlName="name"></ion-input>
     </ion-item>
