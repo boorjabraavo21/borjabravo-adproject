@@ -78,6 +78,7 @@ export class MyplayersPage implements OnInit {
 
   onNewPlayer() {
     var onDismiss = (info:any) => {
+      this.loading = true
       if(info.data.picture) {
         this.dataURLtoBlob(info.data.picture,(blob:Blob) => {
           this.mediaSvc.upload(blob).subscribe((media:number[])=> {
@@ -98,6 +99,7 @@ export class MyplayersPage implements OnInit {
   }
 
   onDeletePlayer(player:Player) {
+    this.loading = true
     this.playerSvc.deletePlayer(player).subscribe({
       next: obs => {
         this.onLoadPlayers();
@@ -110,6 +112,7 @@ export class MyplayersPage implements OnInit {
 
   onEditPlayer(player:Player) {
     var onDismiss = (info:any) => {
+      this.loading = true
       if(info.data.picture) {
         this.dataURLtoBlob(info.data.picture,(blob:Blob) => {
           this.mediaSvc.upload(blob).subscribe((media:number[])=> {
