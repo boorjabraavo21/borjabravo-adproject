@@ -58,6 +58,7 @@ export class MySquadsPage implements OnInit {
 
   onNewSquad() {
     var onDismiss = (info:any) => {
+      this.loading = true
       var squad:Squad = info.data
       squad.players = squad.players.map(p => {
         return {
@@ -83,6 +84,7 @@ export class MySquadsPage implements OnInit {
 
   onEditSquad(squad:Squad) {
     var onDismiss = (info:any) => {
+      this.loading = true
       var squad:Squad = info.data
       squad.players = squad.players.map(p => {
         return {
@@ -107,6 +109,7 @@ export class MySquadsPage implements OnInit {
   }
 
   onDeleteSquad(squad:Squad) {
+    this.loading = true
     this.squads.deleteSquad(squad).subscribe(_=>{
       this.onLoadSquads()
     })
