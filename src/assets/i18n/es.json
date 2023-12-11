@@ -76,6 +76,11 @@
             "editPlayer":"Edit Jugador",
             "create":"Crear",
             "save":"Guardar"
+        },
+        "placeholder":{
+            "name":"Escribe el nombre",
+            "click":"Click para elegir",
+            "nation":"Escribe la nacionalidad"
         }
     }
 }

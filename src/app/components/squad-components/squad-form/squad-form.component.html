@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar>
+    <ion-button color="dark" fill="clear" (click)="onCancel()"><ion-icon slot="start" name="arrow-back-outline"></ion-icon></ion-button>
     <ion-title *ngIf="mode=='New'">{{'form.mode.createSquad' | translate}}</ion-title>
     <ion-title *ngIf="mode=='Edit'">{{'form.mode.editSquad' | translate}}</ion-title>
   </ion-toolbar>
@@ -7,10 +8,10 @@
 <ion-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()">
     <ion-item>
-      <ion-input #nombre label="{{'player.nameLabel' | translate }}" placeholder="Escribe el nombre" labelPlacement="fixed" type="text" formControlName="name"></ion-input>
+      <ion-input #nombre label="{{'player.nameLabel' | translate }}" placeholder="{{'form.placeholder.name' | translate}}" labelPlacement="fixed" type="text" formControlName="name"></ion-input>
     </ion-item>
     <ion-item [button]="true" id="nested-trigger">
-      <ion-input #formacion type="text" [readonly]="true" label="{{'squad.lineUpLabel' | translate }}" labelPlacement="fixed" placeholder="Click para elegir" formControlName="lineUp"></ion-input>
+      <ion-input #formacion type="text" [readonly]="true" label="{{'squad.lineUpLabel' | translate }}" labelPlacement="fixed" placeholder="{{'form.placeholder.click' | translate}}" formControlName="lineUp"></ion-input>
     </ion-item>
     <ion-popover #popover trigger="nested-trigger" side="end">
       <ng-template>

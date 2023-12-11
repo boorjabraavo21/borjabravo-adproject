@@ -1,16 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{(mode=='New'?'Crear Jugador':'Editar Jugador')}}</ion-title>
+    <ion-button color="dark" fill="clear" (click)="onCancel()"><ion-icon name="arrow-back-outline"></ion-icon></ion-button>
+    <ion-title *ngIf="mode=='New'">{{'form.mode.createPlayer' | translate}}</ion-title>
+    <ion-title *ngIf="mode=='Edit'">{{'form.mode.editPlayer' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()">
     <app-picture-selectable formControlName="picture"></app-picture-selectable>
     <ion-item>
-      <ion-input label="{{'player.nameLabel' | translate }}" placeholder="Escribe el nombre" labelPlacement="fixed" type="text" formControlName="name"></ion-input>
+      <ion-input label="{{'player.nameLabel' | translate }}" placeholder="{{'form.placeholder.name' | translate}}" labelPlacement="fixed" type="text" formControlName="name"></ion-input>
     </ion-item>
     <ion-item [button]="true" id="nested-trigger">
-      <ion-input #posicion [readonly]="true" label="{{'player.positionLabel' | translate }}" labelPlacement="fixed" placeholder="Click para elegir" formControlName="position" type="text"></ion-input>
+      <ion-input #posicion [readonly]="true" label="{{'player.positionLabel' | translate }}" labelPlacement="fixed" placeholder="{{'form.placeholder.click' | translate}}" formControlName="position" type="text"></ion-input>
     </ion-item>
     <ion-popover #popover trigger="nested-trigger" side="end">
       <ng-template>
@@ -26,7 +28,7 @@
       <ion-input label="{{'player.ageLabel' | translate }}" placeholder="Dime la edad" labelPlacement="fixed" type="number" formControlName="age"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input label="{{'player.nationLabel' | translate }}" placeholder="Escribe la nacionalidad" labelPlacement="fixed" type="text" formControlName="nation"></ion-input>
+      <ion-input label="{{'player.nationLabel' | translate }}" placeholder="{{'form.placeholder.nation' | translate}}" labelPlacement="fixed" type="text" formControlName="nation"></ion-input>
     </ion-item>
     <ion-item>
       <ion-input label="{{'player.ratingLabel' | translate }}" placeholder="Dime la valoración" labelPlacement="fixed" type="number" formControlName="rating"></ion-input>
@@ -35,6 +37,7 @@
 </ion-content>
 <ion-footer>
   <ion-buttons>
-    <ion-button type="submit" [disabled]="!form.valid || !form.dirty" (click)="onSubmit()">{{(mode=='New'?'Crear':'Guardar')}}</ion-button>
+    <ion-button *ngIf="mode=='New'" [disabled]="!form.valid" (click)="onSubmit()">{{ 'form.mode.create' | translate }}</ion-button>
+    <ion-button *ngIf="mode=='Edit'" [disabled]="!form.valid" (click)="onSubmit()">{{ 'form.mode.save' | translate }}</ion-button>
   </ion-buttons>
 </ion-footer>

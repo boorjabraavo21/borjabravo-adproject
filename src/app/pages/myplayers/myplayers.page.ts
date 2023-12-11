@@ -14,91 +14,95 @@ import { PlayerService } from 'src/app/services/player.service';
   styleUrls: ['./myplayers.page.scss'],
 })
 export class MyplayersPage implements OnInit {
-  
+
   private _players = new BehaviorSubject<Player[] | null>([])
   public players$ = this._players.asObservable()
-  private _pagination = new BehaviorSubject<Pagination>({page:0, pageCount: 0, pageSize:0, total:0})
+  private _pagination = new BehaviorSubject<Pagination>({ page: 0, pageCount: 0, pageSize: 0, total: 0 })
   public pagination$ = this._pagination.asObservable()
-  loading:boolean = false
+  loading: boolean = false
 
   constructor(
-    public playerSvc:PlayerService,
-    private modal:ModalController,
-    private toast:ToastController,
-    private mediaSvc:MediaService
+    public playerSvc: PlayerService,
+    private modal: ModalController,
+    private toast: ToastController,
+    private mediaSvc: MediaService
   ) { }
 
   ngOnInit() {
     this.loading = true
     this.onLoadPlayers()
-    
+
   }
 
-  async onLoadPlayers(page:number = 0, refresh:any = null) {
+  async onLoadPlayers(page: number = 0, refresh: any = null) {
     this.playerSvc.query("").subscribe(response => {
       this._players.next(response.data)
       this._pagination.next(response.pagination)
 
-      if(refresh)
+      if (refresh)
         refresh.complete()
       this.loading = false
     })
   }
 
-  async presentForm(data:Player | null, onDismiss:(result:any)=>void) {
+  async presentForm(data: Player | null, onDismiss: (result: any) => void) {
     const modal = await this.modal.create({
-      component:PlayerFormComponent,
+      component: PlayerFormComponent,
       componentProps: {
-        player:data
+        player: data
       }
     })
     modal.present()
     modal.onDidDismiss().then(result => {
-      if(result?.data) {
+      if (result?.data) {
         onDismiss(result)
       }
     })
   }
 
-  private dataURLtoBlob( dataUrl:string, callback:(blob:Blob)=>void ){
+  private dataURLtoBlob(dataUrl: string, callback: (blob: Blob) => void) {
     var req = new XMLHttpRequest;
 
-    req.open( 'GET', dataUrl );
+    req.open('GET', dataUrl);
     req.responseType = 'arraybuffer';
 
-    req.onload = function fileLoaded(e)
-    {
-        var mime = this.getResponseHeader('content-type');
+    req.onload = function fileLoaded(e) {
+      var mime = this.getResponseHeader('content-type');
 
-        callback( new Blob([this.response], {type:mime || undefined}) );
+      callback(new Blob([this.response], { type: mime || undefined }));
     };
 
     req.send();
   }
 
   onNewPlayer() {
-    var onDismiss = (info:any) => {
-      this.loading = true
-      if(info.data.picture) {
-        this.dataURLtoBlob(info.data.picture,(blob:Blob) => {
-          this.mediaSvc.upload(blob).subscribe((media:number[])=> {
-            info.data.picture = media[0]
-            this.playerSvc.addPlayer(info.data).subscribe(_=>{
-              this.onLoadPlayers()
+    var onDismiss = (info: any) => {
+      switch (info.role) {
+        case 'ok': {
+          this.loading = true
+          if (info.data.picture) {
+            this.dataURLtoBlob(info.data.picture, (blob: Blob) => {
+              this.mediaSvc.upload(blob).subscribe((media: number[]) => {
+                info.data.picture = media[0]
+                this.playerSvc.addPlayer(info.data).subscribe(_ => {
+                  this.onLoadPlayers()
+                })
+              })
             })
-          })
-        })
-      } else if (info.data.picture=="") {
-        info.data.picture = null
-        this.playerSvc.addPlayer(info.data).subscribe(_=>{
-          this.onLoadPlayers();
-        })
+          } else if (info.data.picture == "") {
+            info.data.picture = null
+            this.playerSvc.addPlayer(info.data).subscribe(_ => {
+              this.onLoadPlayers();
+            })
+          }
+        }
+          break;
       }
     }
     this.presentForm(null, onDismiss)
   }
 
-  onDeletePlayer(player:Player) {
+  onDeletePlayer(player: Player) {
     this.loading = true
     this.playerSvc.deletePlayer(player).subscribe({
       next: obs => {
@@ -110,24 +114,29 @@ export class MyplayersPage implements OnInit {
     })
   }
 
-  onEditPlayer(player:Player) {
-    var onDismiss = (info:any) => {
-      this.loading = true
-      if(info.data.picture) {
-        this.dataURLtoBlob(info.data.picture,(blob:Blob) => {
-          this.mediaSvc.upload(blob).subscribe((media:number[])=> {
-            info.data.picture = media[0]
-            let _player = {id:player.id,...info.data}
-            this.playerSvc.updatePlayer(_player).subscribe(_=>{
+  onEditPlayer(player: Player) {
+    var onDismiss = (info: any) => {
+      switch (info.role) {
+        case 'ok': {
+          this.loading = true
+          if (info.data.picture) {
+            this.dataURLtoBlob(info.data.picture, (blob: Blob) => {
+              this.mediaSvc.upload(blob).subscribe((media: number[]) => {
+                info.data.picture = media[0]
+                let _player = { id: player.id, ...info.data }
+                this.playerSvc.updatePlayer(_player).subscribe(_ => {
+                  this.onLoadPlayers();
+                })
+              })
+            })
+          } else if (info.data.picture == "") {
+            info.data.picture = null
+            this.playerSvc.updatePlayer(info.data).subscribe(_ => {
               this.onLoadPlayers();
             })
-          })
-        })
-      } else if (info.data.picture=="") {
-        info.data.picture = null
-        this.playerSvc.updatePlayer(info.data).subscribe(_=>{
-          this.onLoadPlayers();
-        })
+          }
+        }
+          break;
       }
     }
     this.presentForm(player, onDismiss)

@@ -1,9 +1,9 @@
-ion-card {
+ion-card-content {
     width: 250px;
-    background-image: url("../../../../assets/red_background.jpg");
-    background-size: 250px 100px;
+    height: 120px;
+    background-image: url("../../../../assets/field_background.jpg");
+    background-size: 250px 120px;
 }
-
 
 * {
     color: white;
@@ -17,15 +17,16 @@ ion-buttons {
 }
 
 @media (max-width: 990px) {
-    ion-card {
+    ion-card-content {
       width: 200px;
-      background-size: 200px 100px;
+      background-size: 200px 120px;
     }
 }
 
 @media (max-width: 450px) {
-    ion-card {
+    ion-card-content {
         width: 150px;
-        background-size: 150px 80px;
+        height: 100px;
+        background-size: 150px 100px;
     }
 }

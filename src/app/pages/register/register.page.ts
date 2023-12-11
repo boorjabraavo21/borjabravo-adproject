@@ -20,7 +20,7 @@ export class RegisterPage implements OnInit {
 
   onRegister(info:UserRegisterInfo) {
     this.auth.register(info).subscribe({
-      next: () => this.router.navigate(['/login']),
+      next: () => this.router.navigate(['/home']),
       error: (err:any) => console.log(err)
     })
   }

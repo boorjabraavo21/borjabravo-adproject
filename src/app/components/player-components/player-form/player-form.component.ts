@@ -45,6 +45,10 @@ export class PlayerFormComponent  implements OnInit {
     this.modal.dismiss(this.form.value, 'ok')
   }
 
+  onCancel() {
+    this.modal.dismiss(null, 'cancel')
+  }
+
   onSelectPosition(popover:IonPopover, input:IonInput, position:string) {
     this.form.controls['position'].setValue(position)
     input.value = position

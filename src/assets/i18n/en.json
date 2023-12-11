@@ -76,6 +76,11 @@
             "editPlayer":"Edit Player",
             "create":"Create",
             "save":"Save"
+        },
+        "placeholder":{
+            "name":"Write your name",
+            "click":"Click for choose",
+            "nation":"Write your nation"
         }
     }
 }

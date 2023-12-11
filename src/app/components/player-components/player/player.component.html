@@ -1,9 +1,8 @@
-<ion-card appHighlight>
+<ion-card appHighlight (click)="onEditClick($event)">
   <ion-card-subtitle>{{player?.rating}}</ion-card-subtitle>
   <ion-card-subtitle>{{player?.position}}</ion-card-subtitle>
   <ion-buttons>
     <ion-button (click)="onDeleteClick($event)"><ion-icon name="trash-outline"></ion-icon></ion-button>
-    <ion-button (click)="onEditClick($event)"><ion-icon name="pencil-outline"></ion-icon></ion-button>
   </ion-buttons>
   <ion-card-header>
     <div class="card-header">

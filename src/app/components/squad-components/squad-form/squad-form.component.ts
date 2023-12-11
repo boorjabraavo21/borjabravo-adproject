@@ -47,6 +47,10 @@ export class SquadFormComponent  implements OnInit {
     this.modal.dismiss(this.form.value, 'ok')
   }
 
+  onCancel() {
+    this.modal.dismiss(null, 'cancel')
+  }
+
   onSelectLineUp(popover:IonPopover, input:IonInput, lineUp:string) {
     this.form.controls['lineUp'].setValue(lineUp)
     this.lineUp = lineUp
