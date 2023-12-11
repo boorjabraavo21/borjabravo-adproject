@@ -101,7 +101,6 @@ export class PlayerService {
 
   addPlayer(player:Player):Observable<Player> {
     delete player.id
-    player.picture = null;
     player.team = "Created"
     return this.dataService.post<Player>("players", player).pipe(tap(_=>{
       this.getAll().subscribe()
