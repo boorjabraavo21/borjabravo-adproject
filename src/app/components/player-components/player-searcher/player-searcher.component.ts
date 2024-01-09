@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { InfiniteScrollCustomEvent, PopoverController, ToastController, ToastOptions } from '@ionic/angular';
+import { PopoverController, ToastController, ToastOptions } from '@ionic/angular';
 import { lastValueFrom } from 'rxjs';
 import { Pagination } from 'src/app/interfaces/data';
 import { Player } from 'src/app/interfaces/player';
@@ -61,5 +61,9 @@ export class PlayerSearcherComponent  implements OnInit {
       this.popover.dismiss(player,"ok")
       this.showList = false
     }
+  }
+
+  onCancel() {
+    this.showList = false
   }
 }
