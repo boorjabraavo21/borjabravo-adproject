@@ -24,7 +24,8 @@ export class PlayerSearcherComponent  implements OnInit {
     public plySvc:PlayerService,
     private popover:PopoverController,
     private toast:ToastController
-  ) {}
+  ) {
+  }
 
   ngOnInit() {}
 
@@ -40,9 +41,11 @@ export class PlayerSearcherComponent  implements OnInit {
   }
 
   private filter(value:string) {
-    const query = value
     const _players = [...this.players]
-    this.players = _players.filter(p => p.name.toLowerCase().includes(query))
+    if (value == "" || value == null) {
+      this.players = _players
+    } else 
+      this.players = _players.filter(p => p.name.toLowerCase().includes(value))
   }
 
   onPlayerClick(player:Player){
@@ -61,9 +64,5 @@ export class PlayerSearcherComponent  implements OnInit {
       this.popover.dismiss(player,"ok")
       this.showList = false
     }
-  }
-
-  onCancel() {
-    this.showList = false
   }
 }
