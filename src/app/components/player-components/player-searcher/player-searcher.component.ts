@@ -40,12 +40,10 @@ export class PlayerSearcherComponent  implements OnInit {
     this.filter(evt.target.value.toLowerCase())
   }
 
-  private filter(value:string) {
-    const _players = [...this.players]
-    if (value == "" || value == null) {
-      this.players = _players
-    } else 
-      this.players = _players.filter(p => p.name.toLowerCase().includes(value))
+  private async filter(value:string) {
+    const query = value
+    const _players = await lastValueFrom(this.plySvc.query(""))
+    this.players = _players.data.filter(p => p.name.toLowerCase().includes(query))
   }
 
   onPlayerClick(player:Player){
